@@ -1,4 +1,6 @@
 import 'package:dr_crop_guru/screens/home_screen.dart';
+import 'package:dr_crop_guru/screens/mart.dart';
+import 'package:dr_crop_guru/screens/profile.dart';
 import 'package:dr_crop_guru/utils/util.dart';
 import 'package:flutter/material.dart';
 
@@ -19,18 +21,12 @@ class _HomePageState extends State<HomePage> {
       'Index 1: Business',
       style: optionStyle,
     ),
-    Text(
-      'Index 2: Mart',
-      style: optionStyle,
-    ),
+    Mart(),
     Text(
       'Index 3: Lab',
       style: optionStyle,
     ),
-    Text(
-      'Index 4: Profile',
-      style: optionStyle,
-    ),
+    Profile(),
   ];
 
   void _onItemTapped(int index) {
@@ -44,6 +40,7 @@ class _HomePageState extends State<HomePage> {
     return Stack(
       children: [
         Scaffold(
+          resizeToAvoidBottomInset: false,
           body: Center(
             child: _widgetOptions.elementAt(_selectedIndex),
           ),
@@ -123,7 +120,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Positioned(
-          bottom: 5,
+          bottom: 0,
           right: MediaQuery.of(context).size.width / 2 - 40,
           left: MediaQuery.of(context).size.width / 2 - 40,
           child: Material(
