@@ -32,3 +32,17 @@ HexColor GreenA100 = HexColor("#D1F4B6");
 HexColor lightgreen = HexColor("#D1F4B6");
 
 HexColor kwBorder = HexColor("#83ACCC");
+
+//Colors added by Saurabh Rao
+
+Color update_profile_textfield_border = Colors.grey;
+Color hint_text_color = Colors.grey;
+Color green100 = fromHex('#C2E7CF');
+Color green700 = fromHex('#43845A');
+Color greenTextColor = fromHex('#47964A');
+Color lightGreenTextColor = fromHex('#6FB634');
+Color lightGrey = fromHex('#F6F4F4');
+Color lightGreenButton = fromHex('#E8F2E8');
+Color tealTextColor = fromHex('#2291A0');
+Color textFieldColor = fromHex('#EDE9E9');
+Color blueTextColor = fromHex('#053BC1');

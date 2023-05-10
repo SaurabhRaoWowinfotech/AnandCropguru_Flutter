@@ -575,17 +575,15 @@ class _customAlertDialogState extends State<customAlertDialog> with TickerProvid
                   }
 
                   if(otp == widget.response.staticOTP || otp == widget.response.uniqueOTP){
-                    PrefsUtil.setUserDetails(User(
-                      fullName: widget.fullName,
-                      mobileNo: widget.mobileNumber,
-                    ));
-                    PrefsUtil.setOTPVerified();
                     Util.animatedProgressDialog(context, _controller);
                     //Calling registration API
                     Services.getUser(widget.fullName, widget.mobileNumber).then((value) {
+                      PrefsUtil.setUserDetailsFromResponse(value).then((value) {
+                        PrefsUtil.setOTPVerified();
+                      });
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
-                      if(value.stateName == null){
+                      if(value[0]['STATE_NAME'] == null){
                         Navigator.pushReplacementNamed(context, AddressScreen.routeName);
                       } else {
                         PrefsUtil.setAddressUploaded();

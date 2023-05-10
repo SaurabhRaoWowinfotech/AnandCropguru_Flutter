@@ -32,6 +32,7 @@ class Util {
   static Color endColor = fromHex('#87DC69');
   static Color newBlueTextColor = fromHex('#03334F');
   static Color orangee = fromHex('#EF9920');
+  static Color lightGreen = fromHex('#D1F4B6');
 
   // late AnimationController _controller;
   //
@@ -57,7 +58,7 @@ class Util {
   //   super.dispose();
   // }
 
-  static  animatedProgressDialog(
+  static void animatedProgressDialog(
       BuildContext context, AnimationController controller) {
     showDialog<String>(
       barrierDismissible: false,

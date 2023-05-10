@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-
 import '../../Api/add_expence_post_api.dart';
 import '../../Api/expense_api.dart';
 import '../../Api/income_post_api.dart';
@@ -14,7 +12,10 @@ import '../../utils/Colors.dart';
 import '../../utils/util.dart';
 
 class Income extends StatefulWidget {
-  const Income({Key? key}) : super(key: key);
+  const Income({Key? key, this.userId, this.cropID, this.plotID}) : super(key: key);
+  final userId;
+  final cropID;
+  final plotID;
 
   @override
   State<Income> createState() => _IncomeState();
@@ -111,7 +112,7 @@ class _IncomeState extends State<Income> with TickerProviderStateMixin {
           "EXTRA2": "",
           "EXTRA3": "",
           "LANG_ID": "1",
-          "USER_ID": "60640"
+          "USER_ID": widget.userId.toString(),
         }));
     jsonResponse = json.decode(response.body);
     print(jsonResponse["ResponseMessage"]);
@@ -167,7 +168,7 @@ class _IncomeState extends State<Income> with TickerProviderStateMixin {
       "EXTRA2": "",
       "EXTRA3": "",
       "LANG_ID": "1",
-      "USER_ID": "60640",
+      "USER_ID": widget.userId.toString(),
       "CAT_ID": _value2
     };
     http.Response response;
@@ -197,10 +198,10 @@ class _IncomeState extends State<Income> with TickerProviderStateMixin {
     "EXTRA2": "",
     "EXTRA3": "",
     "LANG_ID": "1",
-    "USER_ID": "21013",
+    "USER_ID": widget.userId,
     "START_DATE": from_date_Controller,
     "END_DATE": to_date_Controller,
-    "PLOT_ID": "67898"
+    "PLOT_ID": widget.plotID
     };
     http.Response response;
     response = await http.post(
@@ -222,7 +223,7 @@ class _IncomeState extends State<Income> with TickerProviderStateMixin {
   void addProduct() async {
     isLoaded = false;
     Map<String, dynamic> data = {
-      "CAT_ID": "32",
+      "CAT_ID": _value2,
       "USER_ID": "60640",
       "PRODUCT_ID": "",
       "PRODUCT_NAME": new_Product_Controller.text,
@@ -266,10 +267,10 @@ class _IncomeState extends State<Income> with TickerProviderStateMixin {
       "WORD": "",
       "EXTRA1": "",
       "EXTRA2": "",
-      "PRODUCT_ID": "17",
-      "USER_ID": "21013",
-      "CAT_ID": "14",
-      "UNIT_ID": "5"
+      "PRODUCT_ID": _value3,
+      "USER_ID": widget.userId,
+      "CAT_ID": _value2,
+      "UNIT_ID": _value5
     };
     http.Response response;
     response = await http.post(

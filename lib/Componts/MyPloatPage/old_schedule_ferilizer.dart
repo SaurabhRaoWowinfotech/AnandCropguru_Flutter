@@ -100,10 +100,10 @@ class _OldScheduleState extends State<OldSchedule> {
         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
         child: InkWell(
           onTap: () {
-            Get.to(ScheduleDetails(image:oldschedulelistresponse![index]["SCHEDULE_IMAGE"]  , title:oldschedulelistresponse![index]["TITLE"] ,daysafter:oldschedulelistresponse![index]["SCHEDULE_DAY"] ,scheduletype:oldschedulelistresponse![index]["SCHEDULE_TYPE"],));
+            Get.to(ScheduleDetails(image:oldschedulelistresponse![index]["SCHEDULE_IMAGE"]  , title:oldschedulelistresponse![index]["TITLE"] ,daysafter:oldschedulelistresponse![index]["SCHEDULE_DAY"] ,scheduletype:oldschedulelistresponse![index]["SCHEDULE_TYPE"],schedule:oldschedulelistresponse![index]["SCHEDULE"]));
           },
           child: Container(
-            height: 110,
+
 
             decoration: BoxDecoration(
                 boxShadow: [
@@ -134,7 +134,8 @@ class _OldScheduleState extends State<OldSchedule> {
                     child: Row(
                       children: [
                         SizedBox(width: 5,),
-                        Text(oldschedulelistresponse![index]["SCHEDULE_DAY"], style: TextStyle(
+                        Text(   overflow: TextOverflow.ellipsis,
+                            maxLines:2,oldschedulelistresponse![index]["SCHEDULE_DAY"].toString(), style: TextStyle(
                             color: kWhite,
                             fontSize: 15,
                             fontWeight: FontWeight.bold)),
@@ -146,16 +147,21 @@ class _OldScheduleState extends State<OldSchedule> {
                 SizedBox(height: 5,),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: Row(
-                    children: [
-                      Text("Title:", style: TextStyle(color: kblack,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold)),
-                      Text(oldschedulelistresponse![index]["TITLE"].toString(), style: TextStyle(color: kgreen,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold)),
+                  child: Flexible(
+                    child: Row(
+                      children: [
+                        Text("Title:", style: TextStyle(color: kblack,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold)),
+                        Expanded(
+                          child: Text(overflow: TextOverflow.ellipsis,
+                              maxLines:2,oldschedulelistresponse![index]["TITLE"].toString(), style: TextStyle(color: kgreen,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold)),
+                        ),
 
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(height: 10,),

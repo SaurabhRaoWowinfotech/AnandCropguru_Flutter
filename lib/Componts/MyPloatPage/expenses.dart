@@ -16,7 +16,11 @@ import '../../utils/util.dart';
 import 'expenceList.dart';
 
 class Expenses extends StatefulWidget {
-  const Expenses({Key? key}) : super(key: key);
+  const Expenses({Key? key, this.cropID, this.userID, this.plotId}) : super(key: key);
+  final cropID;
+  final userID;
+  final plotId;
+
 
   @override
   _ExpensesState createState() => _ExpensesState();
@@ -96,7 +100,7 @@ class _ExpensesState extends State<Expenses> with TickerProviderStateMixin {
   }
 
   bool isLoaded = false;
-
+  String? categoryId;
   Future categoryname() async {
     isLoaded = true;
     http.Response response;
@@ -111,13 +115,12 @@ class _ExpensesState extends State<Expenses> with TickerProviderStateMixin {
           "EXTRA2": "",
           "EXTRA3": "",
           "LANG_ID": "1",
-          "USER_ID": "60640"
+          "USER_ID": widget.userID.toString()
         }));
     jsonResponse = json.decode(response.body);
     print(jsonResponse["ResponseMessage"]);
     if (response.statusCode == 200) {
       print(response.body);
-
       catmapresponse = json.decode(response.body);
       catlistresponse = catmapresponse["DATA"];
       isLoaded = true;
@@ -137,7 +140,7 @@ class _ExpensesState extends State<Expenses> with TickerProviderStateMixin {
           "WORD": "",
           "GET_DATA": "Get_ExpencesUnitMasterList",
           "ID1": _value3,
-          "ID2": "60640",
+          "ID2": widget.userID.toString(),
           "ID3": "",
           "STATUS": "",
           "START_DATE": "",
@@ -167,7 +170,7 @@ class _ExpensesState extends State<Expenses> with TickerProviderStateMixin {
       "EXTRA2": "",
       "EXTRA3": "",
       "LANG_ID": "1",
-      "USER_ID": "60640",
+      "USER_ID": widget.userID.toString(),
       "CAT_ID": _value2
     };
     http.Response response;
@@ -196,10 +199,10 @@ class _ExpensesState extends State<Expenses> with TickerProviderStateMixin {
       "EXTRA2": "",
       "EXTRA3": "",
       "LANG_ID": "1",
-      "USER_ID": "60640",
+      "USER_ID": widget.userID,
       "START_DATE":from_date_Controller.text,
       "END_DATE":  to_date_Controller.text,
-      "PLOT_ID": "67898"
+      "PLOT_ID":widget.plotId
     };
     http.Response response;
     response = await http.post(
@@ -221,8 +224,8 @@ class _ExpensesState extends State<Expenses> with TickerProviderStateMixin {
   void addProduct() async {
     isLoaded = false;
     Map<String, dynamic> data = {
-      "CAT_ID": "32",
-      "USER_ID": "60640",
+      "CAT_ID": _value2,
+      "USER_ID": widget.userID,
       "PRODUCT_ID": "",
       "PRODUCT_NAME": addProduct_Controller.text,
       "EXTRA1": "",
@@ -265,10 +268,10 @@ class _ExpensesState extends State<Expenses> with TickerProviderStateMixin {
       "WORD": "",
       "EXTRA1": "",
       "EXTRA2": "",
-      "PRODUCT_ID": "17",
-      "USER_ID": "21013",
-      "CAT_ID": "14",
-      "UNIT_ID": "5"
+      "PRODUCT_ID": _value3,
+      "USER_ID": widget.userID,
+      "CAT_ID": _value2,
+      "UNIT_ID": _value5
     };
     http.Response response;
     response = await http.post(
@@ -358,8 +361,6 @@ class _ExpensesState extends State<Expenses> with TickerProviderStateMixin {
                       child: InkWell(
                         onTap: () {
                           isVisible == !isVisible;
-                          print(_value3);
-                          print("hello");
                           unitcount();
                         },
                         child: Container(

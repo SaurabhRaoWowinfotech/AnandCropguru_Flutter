@@ -7,12 +7,14 @@ import '../../utils/Colors.dart';
 import '../../utils/util.dart';
 
 class RepositoryOfKnowledge extends StatelessWidget {
-   RepositoryOfKnowledge({Key? key, this.firstname, this.image, this.text}) : super(key: key);
+   RepositoryOfKnowledge({Key? key, this.firstname, this.image, this.text, this.scheduledetails}) : super(key: key);
   final firstname;
   final image;
   final text;
+  final scheduledetails;
 
-  @override
+
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(

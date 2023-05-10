@@ -1,5 +1,6 @@
 import 'package:dr_crop_guru/Componts/MyPloatPage/add_to_diary.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 
 import '../../utils/Colors.dart';
@@ -7,12 +8,13 @@ import '../../utils/util.dart';
 
 class ScheduleDetails extends StatefulWidget {
   const ScheduleDetails(
-      {Key? key, this.title, this.daysafter, this.scheduletype, this.image})
+      {Key? key, this.title, this.daysafter, this.scheduletype, this.image, this.schedule})
       : super(key: key);
   final title;
   final daysafter;
   final scheduletype;
   final image;
+  final schedule;
 
   @override
   _ScheduleDetailsState createState() => _ScheduleDetailsState();
@@ -129,11 +131,13 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
                                       color: kblack,
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold)),
-                              Text("  ${widget.title}",
-                                  style: TextStyle(
-                                      color: kgreen,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold)),
+                              Expanded(
+                                child: Text("  ${widget.title}",
+                                    style: TextStyle(
+                                        color: kgreen,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold)),
+                              ),
                             ],
                           ),
                           SizedBox(
@@ -167,21 +171,9 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
                           SizedBox(
                             height: 20,
                           ),
-                          Text("Schedule Type :",
-                              style: TextStyle(
-                                  color: kblack,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold)),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                                "There is no fertilizer work available today, so today you Inspect the crops in your garden/ field. If you have any question, ask a question using this window Take a photo of your crop problem,ask questions and get answers from our expert Agronomist. ",
-                                style: TextStyle(
-                                    color: kblack,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    height: 3)),
-                          ),
+
+                          Html(
+                              data:widget.schedule),
                         ],
                       ),
                     ),
@@ -192,7 +184,7 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: InkWell(
                         onTap: () {
-                          Get.to(AddToDiary());
+                         // Get.to(AddToDiary());
                         },
                         child: Container(
                           height: 40,

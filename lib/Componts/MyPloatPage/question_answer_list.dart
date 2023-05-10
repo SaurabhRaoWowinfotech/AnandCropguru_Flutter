@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:dr_crop_guru/Componts/MyPloatPage/question_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,15 +15,22 @@ import '../../utils/util.dart';
 import 'add_your_question.dart';
 
 class QuestionAnswer extends StatefulWidget {
-  const QuestionAnswer({Key? key}) : super(key: key);
+   QuestionAnswer({Key? key, this.userId, this.plotID, this.cropID}) : super(key: key);
+  final userId;
+  final plotID;
+  final cropID;
 
   @override
   State<QuestionAnswer> createState() => _QuestionAnswerState();
 }
 
-class _QuestionAnswerState extends State<QuestionAnswer> {
+class _QuestionAnswerState extends State<QuestionAnswer> with TickerProviderStateMixin{
   late Map mapresponse;
   List? listresponse;
+  var jsonResponse;
+  String? msg;
+  String?data ;
+  late AnimationController _controller;
 
 
 
@@ -31,7 +39,7 @@ class _QuestionAnswerState extends State<QuestionAnswer> {
     http.Response response;
     response = await http.post(
         Uri.parse(
-            'https://mycropguruapiwow.cropguru.in/api/QANDAAgronomist?USER_ID=60640&TYPE=user&AGRONOMIST_ID=60640&PLOT_ID=69234'),
+            'https://mycropguruapiwow.cropguru.in/api/QANDAAgronomist?USER_ID=${widget.plotID}&TYPE=user&AGRONOMIST_ID=${widget.userId}&PLOT_ID=${widget.plotID}'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(<String, String>{
           "START": "0",
@@ -39,18 +47,45 @@ class _QuestionAnswerState extends State<QuestionAnswer> {
           "WORD": "NONE",
           "LANG_ID": "1"
         }));
-    var jsonResponse = json.decode(response.body);
+     jsonResponse = json.decode(response.body);
     print(jsonResponse["ResponseMessage"]);
     if (response.statusCode == 200) {
       mapresponse = json.decode(response.body);
     listresponse = mapresponse["DATA"];
+      data = listresponse.toString();
+      msg = jsonResponse["ResponseMessage"];
     //  print(listresponse![0]["SCHEDUEL_ID"]);
       isLoaded = true;
     }
   }
   @override
   void initState() {
-    questionAnswerlist();
+    _controller = AnimationController(
+      duration: const Duration(
+          milliseconds: 3000),
+      vsync: this,
+    );
+    _controller.addListener(() {
+      if (_controller.isCompleted) {
+        _controller.reset();
+        _controller.forward();
+      }
+    });
+    WidgetsBinding.instance
+        .addPostFrameCallback(
+            (timeStamp) {
+          Util.animatedProgressDialog(
+              context, _controller);
+          _controller.forward();
+        });
+    questionAnswerlist().then((value) {
+      _controller.reset();
+      Navigator.pop(context);
+      setState(() {});
+      return value;
+    });
+    
+
     // TODO: implement initState
     super.initState();
   }
@@ -122,16 +157,71 @@ class _QuestionAnswerState extends State<QuestionAnswer> {
               )
           )
       ),
-      body: Visibility(
+      body:data == "[]"?Column(
+        children: [
+          SizedBox(height: 15,),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25,),
+            child: Material(
+              elevation: 1.0,
+              child: Container(
+                height: MediaQuery.of(context).size.height -230,
+                decoration: BoxDecoration(
+                  color: kWhite,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(5.0),
+                    topRight: Radius.circular(5),
+                    bottomLeft: Radius.zero,
+                    bottomRight: Radius.zero,
+                  ),
+                ),
+                child:Html(
+                    data:msg.toString()),
+              ),
+            ),
+          ),
+          Padding(
+            padding:const EdgeInsets.symmetric(horizontal: 25,),
+            child: Material(
+              elevation: 1.0,
+              child: InkWell(
+                onTap: (){
+                  Get.to(AddYourQuestion(userID: widget.userId,cropId: widget.cropID,plotId: widget.plotID,));
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      color: kgreen,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.zero,
+                        topRight: Radius.zero,
+                        bottomLeft: Radius.circular(5),
+                        bottomRight: Radius.circular(5),
+                      )
+                  ),
+                  child: Text('Ok',
+                    style: TextStyle(
+                        color: kWhite,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ): Visibility(
         visible: isLoaded,
         child: ListView.builder(
           shrinkWrap: true,
+   // physics: NeverScrollableScrollPhysics(),
     itemBuilder: (context, index) {
       return Padding(
         padding: const EdgeInsets.all(4.0),
         child: InkWell(
           onTap: (){
-            Get.to(Question_details(ans:listresponse![index]["FD_ANSWER"].toString()));
+            Get.to(Question_details(ans:listresponse![index]["FD_ANSWER"].toString(),question: listresponse![index]["FD_DESCRIPTION"].toString(),datetime:listresponse![index]["REG_DATE"].toString(),image:listresponse![index]["FD_IMAGE"].toString() ,));
           },
           child: Container(
 
@@ -158,9 +248,9 @@ class _QuestionAnswerState extends State<QuestionAnswer> {
                 fontSize: 16,
                 fontWeight: FontWeight.bold)),
             Center(child: Image.network(
-              listresponse![index]["FD_IMAGE"],height: 250,errorBuilder: (context, error,
+              listresponse![index]["FD_IMAGE"].toString(),height: 250,errorBuilder: (context, error,
                 stackTrace) {
-              return Container();
+              return Text("");
             },)),
 
             Row(
@@ -198,7 +288,7 @@ class _QuestionAnswerState extends State<QuestionAnswer> {
     },itemCount:listresponse == null ? 0 : listresponse!.length,
         ),
       ),
-      floatingActionButton: Container(
+      floatingActionButton: data == "[]" ?Text(""):Container(
         height: 70.0,
         width: 90.0,
 
@@ -211,10 +301,10 @@ class _QuestionAnswerState extends State<QuestionAnswer> {
               )),
 
               onPressed: () {
-                Get.to(AddYourQuestion());
+                Get.to(AddYourQuestion(userID: widget.userId,cropId: widget.cropID,plotId: widget.plotID,));
               }),
         ),
-      ),
+      )
     );
   }
 }

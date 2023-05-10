@@ -2,30 +2,42 @@
 
 import 'dart:convert';
 
+import 'package:dr_crop_guru/Api/old_schedule_api.dart';
+import 'package:dr_crop_guru/Componts/MyPloatPage/question_details.dart';
+import 'package:dr_crop_guru/Componts/Purchase.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_html/flutter_html.dart';
+import 'package:get/get.dart';
 import '../../utils/Colors.dart';
 import '../../utils/util.dart';
 import 'package:http/http.dart' as http;
+import 'add_Report.dart';
+import 'master_details.dart';
 
 class ReportMaster extends StatefulWidget {
-   ReportMaster({Key? key}) : super(key: key);
+   ReportMaster({Key? key, this.userID, this.plotID, this.cropID}) : super(key: key);
+   final userID;
+   final plotID;
+   final cropID;
 
   @override
   State<ReportMaster> createState() => _ReportMasterState();
 }
 
-class _ReportMasterState extends State<ReportMaster> {
+class _ReportMasterState extends State<ReportMaster>with TickerProviderStateMixin  {
   late Map mapresponse;
   List? listresponse;
+  String data = " ";
+  String? Firstpage;
 
   bool isLoaded = false;
+  late AnimationController _controller;
 
   Future questionAnswerlist() async {
     http.Response response;
     response = await http.post(
         Uri.parse(
-            'https://mycropguruapiwow.cropguru.in/api/QANDAAgronomist?USER_ID=60640&TYPE=user&AGRONOMIST_ID=60640&PLOT_ID=69234'),
+            'https://mycropguruapiwow.cropguru.in/api/Report?USER_ID=${widget.userID}&TYPE=Agronomist&AGRONOMIST_ID=${widget.userID}&PLOT_ID=${widget.plotID}'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(<String, String>{
           "START": "0",
@@ -37,14 +49,40 @@ class _ReportMasterState extends State<ReportMaster> {
     print(jsonResponse["ResponseMessage"]);
     if (response.statusCode == 200) {
       mapresponse = json.decode(response.body);
+      Firstpage = jsonResponse["ResponseMessage"];
       listresponse = mapresponse["DATA"];
+      data =listresponse.toString();
       //  print(listresponse![0]["SCHEDUEL_ID"]);
       isLoaded = true;
     }
   }
   @override
   void initState() {
-    questionAnswerlist();
+    _controller = AnimationController(
+      duration: const Duration(
+          milliseconds: 3000),
+      vsync: this,
+    );
+    _controller.addListener(() {
+      if (_controller.isCompleted) {
+        _controller.reset();
+        _controller.forward();
+      }
+    });
+    WidgetsBinding.instance
+        .addPostFrameCallback(
+            (timeStamp) {
+          Util.animatedProgressDialog(
+              context, _controller);
+          _controller.forward();
+        });
+    questionAnswerlist().then((value) {
+      _controller.reset();
+      Navigator.pop(context);
+      setState(() {});
+      return value;
+    });
+   // questionAnswerlist();
     // TODO: implement initState
     super.initState();
   }
@@ -106,16 +144,73 @@ class _ReportMasterState extends State<ReportMaster> {
               ),
             )),
       ),
-      body:  Visibility(
-        visible: isLoaded,
-        child: ListView.builder(
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(4.0),
+      body:data == "[]"?Column(
+        children: [ 
+          SizedBox(height: 15,),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25,),
+            child: Material(
+              elevation: 1.0,
+              child: Container( 
+                height: MediaQuery.of(context).size.height -230,
+                decoration: BoxDecoration(
+                   color: kWhite, 
+                  borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(5.0),
+                  topRight: Radius.circular(5),
+                  bottomLeft: Radius.zero,
+                  bottomRight: Radius.zero,
+                ),
+                ),
+                 child:Html(
+                          data:Firstpage),
+              ),
+            ),
+          ),
+          Padding(
+            padding:const EdgeInsets.symmetric(horizontal: 25,),
+            child: Material(
+              elevation: 1.0,
               child: InkWell(
                 onTap: (){
-                //  Get.to(Question_details(ans:listresponse![index]["FD_ANSWER"].toString()));
+                  Get.to(Add_Report());
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 50,
+                  
+                  decoration: BoxDecoration(
+                      color: kgreen,
+                       borderRadius: BorderRadius.only(
+                    topLeft: Radius.zero,
+                    topRight: Radius.zero,
+                    bottomLeft: Radius.circular(5),
+                    bottomRight: Radius.circular(5),
+                  )
+                  ),
+                  child: Text(
+                      'Ok',
+                      style: TextStyle(
+                          color: kWhite,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
+                    ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ): Visibility(
+        visible: isLoaded,
+        child: ListView.builder(
+        //  physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 8),
+              child: InkWell(
+                onTap: (){
+                  
+                Get.to(MasterDetails(ans:listresponse![index]["REPORT_DESC"].toString(),datetime: listresponse![index]["REG_DATE"].toString(),titile:listresponse![index]["REPORT_TYPE"].toString(),image: listresponse![index]["REPORT_IMG"].toString(),  ));
                 },
                 child: Container(
 
@@ -137,12 +232,17 @@ class _ReportMasterState extends State<ReportMaster> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(listresponse![index]["FD_DESCRIPTION"].toString(), style: TextStyle(
+                        Text(listresponse![index]["REPORT_TYPE"].toString(), style: TextStyle(
                             color: kblack,
                             fontSize: 16,
                             fontWeight: FontWeight.bold)),
+                        SizedBox(height: 10,),
+                        Text(maxLines:2,listresponse![index]["REPORT_DESC"].toString(), style: TextStyle(
+                            color: kblack,
+                            fontSize: 14,
+                         )),
                         Center(child: Image.network(
-                          listresponse![index]["FD_IMAGE"],height: 250,errorBuilder: (context, error,
+                          listresponse![index]["REPORT_IMG"],height: 250,errorBuilder: (context, error,
                             stackTrace) {
                           return Container();
                         },)),
@@ -155,18 +255,11 @@ class _ReportMasterState extends State<ReportMaster> {
                               fontSize: 16,
                             )),
 
-                            Container(
-                              height: 35,
-                              width: 90,
-
-                              decoration: BoxDecoration(color:listresponse![index]["STATUS"] == "Solved"  ?kgreen : kdarkred,
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: Center(
-                                child: Text(listresponse![index]["STATUS"].toString(), style: TextStyle(
-                                    color: kWhite,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold)),
-                              ),),
+                            Icon(
+                              Icons.arrow_right_alt_sharp,
+                              size: 30,
+                              color:kdarkred,
+                            )
 
                           ],
                         )
@@ -182,19 +275,17 @@ class _ReportMasterState extends State<ReportMaster> {
           },itemCount:listresponse == null ? 0 : listresponse!.length,
         ),
       ),
-      floatingActionButton: Container(
+   floatingActionButton:data == "[]"? Text(""):Container(
         height: 70.0,
         width: 90.0,
 
         child: FittedBox(
           child: FloatingActionButton(
               backgroundColor: Colors.orange,
-              child: Expanded(child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: Text("  Add Question",style: TextStyle(fontSize: 10,fontWeight: FontWeight.bold)),
-              )),
+              child: Text("AddReport",style: TextStyle(fontSize: 9,fontWeight: FontWeight.bold)),
 
               onPressed: () {
+                Get.to(Add_Report());
                 //Get.to(AddYourQuestion());
               }),
         ),

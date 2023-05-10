@@ -2,6 +2,7 @@
 
 import 'package:dr_crop_guru/Componts/MyPloatPage/Schedule.dart';
 import 'package:dr_crop_guru/Componts/MyPloatPage/diary.dart';
+import 'package:dr_crop_guru/Componts/MyPloatPage/plot_information.dart';
 import 'package:dr_crop_guru/Componts/MyPloatPage/question_answer_list.dart';
 import 'package:dr_crop_guru/Componts/MyPloatPage/report_master.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +10,17 @@ import 'package:get/get.dart';
 
 import '../../utils/Colors.dart';
 import '../../utils/util.dart';
+import 'agronomist_visits.dart';
 import 'faq.dart';
+import 'nrc.dart';
 
 class CapSicumFarm extends StatelessWidget {
-  const CapSicumFarm({Key? key}) : super(key: key);
+  CapSicumFarm({Key? key, this.userId, this.cropId, this.v_Id, this.plotId}) : super(key: key);
+  final userId;
+  final cropId;
+  final v_Id;
+  final plotId;
+
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +94,7 @@ backgroundColor: kgreen,
         Expanded(
           child: GestureDetector(
             onTap: (){
-              Get.to(Schedule());
+              Get.to(Schedule(userId: userId,cropId: cropId, plotId:plotId ,));
             },
             child: Container(
               height: 150,
@@ -115,7 +123,7 @@ backgroundColor: kgreen,
           Expanded(
             child: InkWell(
               onTap: (){
-                Get.to(QuestionAnswer());
+                Get.to(QuestionAnswer(userId: userId,cropID: cropId, plotID:plotId ));
               },
               child: Container(
                 height: 150,
@@ -153,7 +161,7 @@ backgroundColor: kgreen,
                         // Navigator.push(
                         //     context,
                         //     MaterialPageRoute(builder: (context) => const FAQ()));
-                       Get.to(FAQ());
+                       Get.to(FAQ(userID: userId,cropId: cropId, plotID:plotId ));
                       },
                       child: Container(
                         height: 150,
@@ -180,24 +188,29 @@ backgroundColor: kgreen,
                   ),
                   Container(width: 1,height: 100, color: Colors.white), // This is divider
                   Expanded(
-                    child: Container(
-                      height: 150,
+                    child: InkWell(
+                      onTap: (){
+                        Get.to(AgronomistVisits(userID: userId,cropId: cropId, plotID:plotId));
+                      },
+                      child: Container(
+                        height: 150,
 
-                      color:kgreen,
-                      child: Column(
-                        mainAxisAlignment:MainAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                              radius: 40,
-                              backgroundColor: kWhite,
-                              child: Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Center(child: Image.asset("assets/images/agrovisit.png", height:50,color: Colors.orange,)),
-                              )
-                          ),
-                          SizedBox(height: 10,),
-                          Text("Agromist Visits",style: TextStyle(color: kWhite,fontSize: 15,fontWeight: FontWeight.bold),)
-                        ],
+                        color:kgreen,
+                        child: Column(
+                          mainAxisAlignment:MainAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                                radius: 40,
+                                backgroundColor: kWhite,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Center(child: Image.asset("assets/images/agrovisit.png", height:50,color: Colors.orange,)),
+                                )
+                            ),
+                            SizedBox(height: 10,),
+                            Text("Agromist Visits",style: TextStyle(color: kWhite,fontSize: 15,fontWeight: FontWeight.bold),)
+                          ],
+                        ),
                       ),
                     ),
                   )
@@ -212,7 +225,7 @@ backgroundColor: kgreen,
                   Expanded(
                     child: InkWell(
                       onTap: (){
-                     Get.to(Diary());
+                     Get.to(Diary(userId: userId,cropID: cropId, plotID:plotId));
                       },
                       child: Container(
                         height: 150,
@@ -239,7 +252,7 @@ backgroundColor: kgreen,
                   Expanded(
                     child: InkWell(
                       onTap: (){
-                        Get.to(ReportMaster());
+                        Get.to(ReportMaster(userID: userId,cropID: cropId, plotID:plotId));
                       },
                       child: Container(
                         height: 150,
@@ -272,55 +285,65 @@ backgroundColor: kgreen,
               child: Row(
                 children: [
                   Expanded(
-                    child: Container(
-                      height: 150,
-
-
-                      child: Column(
-                        mainAxisAlignment:MainAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                              radius: 40,
-                              backgroundColor: kWhite,
-                              child: Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Center(child: Image.asset("assets/images/info.png", height:50,color: Colors.orange,)),
-                              )
-                          ),
-                          SizedBox(height: 10,),
-                          Text("Plot information",style: TextStyle(color: kWhite,fontSize: 15,fontWeight: FontWeight.bold),)
-                        ],
+                    child: InkWell(
+                      onTap: (){
+                        Get.to(PlotInformation());
+                      },
+                      child: Container(
+                        height: 150,
+                    
+                    
+                        child: Column(
+                          mainAxisAlignment:MainAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                                radius: 40,
+                                backgroundColor: kWhite,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Center(child: Image.asset("assets/images/info.png", height:50,color: Colors.orange,)),
+                                )
+                            ),
+                            SizedBox(height: 10,),
+                            Text("Plot information",style: TextStyle(color: kWhite,fontSize: 15,fontWeight: FontWeight.bold),)
+                          ],
+                        ),
                       ),
                     ),
 
                   ),
                   Container(width: 1,height: 100, color: Colors.white), // This is divider
                   Expanded(
-                    child: Container(
+                    child: InkWell(
+                      onTap: (){
+                        Get.to(NRC(userid: userId,cropId: cropId, plotId:plotId));
+                      },
+                      child: Container(
 
 
 
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            bottomRight: const Radius.circular(25.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomRight: const Radius.circular(25.0),
 
-                          ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment:MainAxisAlignment.center,
-                        children: [
+                            ),
+                        ),
+                        child: Column(
+                          mainAxisAlignment:MainAxisAlignment.center,
+                          children: [
 
-                          CircleAvatar(
-                              radius: 40,
-                              backgroundColor: kWhite,
-                              child: Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Center(child: Image.asset("assets/images/info.png", height:50,color: Colors.orange,)),
-                              )
-                          ),
-                          SizedBox(height: 10,),
-                          Text("N.R.C",style: TextStyle(color: kWhite,fontSize: 15,fontWeight: FontWeight.bold),)
-                        ],
+                            CircleAvatar(
+                                radius: 40,
+                                backgroundColor: kWhite,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Center(child: Image.asset("assets/images/info.png", height:50,color: Colors.orange,)),
+                                )
+                            ),
+                            SizedBox(height: 10,),
+                            Text("N.R.C",style: TextStyle(color: kWhite,fontSize: 15,fontWeight: FontWeight.bold),)
+                          ],
+                        ),
                       ),
                     ),
                   )

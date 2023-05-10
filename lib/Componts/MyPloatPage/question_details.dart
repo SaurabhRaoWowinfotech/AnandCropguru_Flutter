@@ -56,80 +56,101 @@ class _Question_detailsState extends State<Question_details> {
                   elevation: 0,
                   backgroundColor: Colors.green,
                   leading: Builder(
-                    builder: (context) => IconButton(
-                      icon: InkWell(
-                        onTap: (){
-                          Navigator.pop(context);
-                        },
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: kWhite,
+                    builder: (context) =>
+                        IconButton(
+                          icon: InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: kWhite,
+                            ),
+                          ),
+                          onPressed: () {
+                            Scaffold.of(context).openDrawer();
+                          },
+                          tooltip:
+                          MaterialLocalizations
+                              .of(context)
+                              .openAppDrawerTooltip,
                         ),
-                      ),
-                      onPressed: () {
-                        Scaffold.of(context).openDrawer();
-                      },
-                      tooltip:
-                      MaterialLocalizations.of(context).openAppDrawerTooltip,
-                    ),
                   ),
                   title: InkWell(
-                    onTap: (){
+                    onTap: () {
 
                     },
                     child: Text('Question details',
-                      style: TextStyle(color: kWhite, fontSize: 20,fontWeight: FontWeight.bold),
+                      style: TextStyle(color: kWhite,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 )
             )
         ),
-        body: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Container(
+        body: Column(
+          children: [
+            SizedBox(height: 5,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Container(
+
                 decoration: BoxDecoration(
-                  color: kWhite,
-                  borderRadius: BorderRadius.circular(7),
-                  boxShadow: [
+                    color: kWhite,
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: const [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(1, 6), // changes position of shadow
+                        color: Colors.grey,
+                        blurRadius: 5,
+                        spreadRadius: 1,
+                        offset: Offset(4, 4)
                     ),
                   ],
                 ),
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 3),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(widget.question,
-                          style: TextStyle(
-                              color: kblack,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold)),
-                      Center(
-                          child: Image.network(
-                        widget.image,
-                        height: 250,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Container();
-                        },
-                      )),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(widget.ans,
-                              style: TextStyle(
-                                color: kgrey,
-                                fontSize: 16,
-                              )),
+                          Text(widget.question,
+                            style: TextStyle(color: kblack,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                          Text(widget.datetime,
+                            style: TextStyle(color: kgreyy,
+                                fontSize: 15,
+                            ),
+                          ),
                         ],
-                      )
+                      ),
+                       Center(child: Image.network(widget.image,errorBuilder: (context, error,
+                           stackTrace) {
+                         return Text("");
+                       }))  ,
+
+                      Row(
+                        children: [
+                          Text(widget.ans == null ?widget.ans : "Unsolved",
+                          style: TextStyle(color: kblack,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15,),
                     ],
                   ),
-                ))));
+                )
+              ),
+            ),
+          ],
+        )
+    );
   }
 }

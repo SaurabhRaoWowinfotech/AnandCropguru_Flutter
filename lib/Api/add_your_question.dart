@@ -36,7 +36,7 @@ class AddQuestion{
     }
   }
 
-  static  userRegistration(questionanswer,imagedata) async {
+  static  userRegistration(userId,plotId,questionanswer,imagedata) async {
 
     Map<String, dynamic> data = {
       "USER_ID":"60640",

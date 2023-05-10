@@ -16,7 +16,7 @@ class Ploat extends StatefulWidget {
   State<Ploat> createState() => _PloatState();
 }
 
-class _PloatState extends State<Ploat> {
+class _PloatState extends State<Ploat>with TickerProviderStateMixin {
   double size = 15;
 
   double height = 38;
@@ -24,6 +24,7 @@ class _PloatState extends State<Ploat> {
   double width = 104;
   late Map myplotmapresponse;
   List? myplotlistresponse;
+  late AnimationController _controller;
   var jsonResponse;
 
   bool isLoaded = false;
@@ -55,15 +56,39 @@ class _PloatState extends State<Ploat> {
 
 @override
   void initState() {
-  Future.delayed( Duration(seconds: 0), () {
-    Myploat().then((value){
-      setState(() {
-      });
-    });
-// Here you can write your code
-
-
+  _controller = AnimationController(
+    duration: const Duration(
+        milliseconds: 3000),
+    vsync: this,
+  );
+  _controller.addListener(() {
+    if (_controller.isCompleted) {
+      _controller.reset();
+      _controller.forward();
+    }
   });
+  WidgetsBinding.instance
+      .addPostFrameCallback(
+          (timeStamp) {
+        Util.animatedProgressDialog(
+            context, _controller);
+        _controller.forward();
+      });
+  Myploat().then((value) {
+    _controller.reset();
+    Navigator.pop(context);
+    setState(() {});
+    return value;
+  });
+
+//   Future.delayed( Duration(seconds: 0), () {
+//     Myploat().then((value){
+//       setState(() {
+//       });
+//     });
+// // Here you can write your code
+//
+//});
 
     // TODO: implement initState
     super.initState();
@@ -93,7 +118,7 @@ class _PloatState extends State<Ploat> {
           child: InkWell(
 
             onTap: (){
-              Get.to(CapSicumFarm());
+              Get.to(CapSicumFarm(cropId:myplotlistresponse![index]["CROP_ID"],userId: myplotlistresponse![index]["USER_ID"],plotId: myplotlistresponse![index]["PLOT_ID"],));
             },
             child: Container(
               height: 175,
@@ -351,7 +376,7 @@ class _PloatState extends State<Ploat> {
           ),
         );
       },itemCount:myplotlistresponse == null ? 0 : myplotlistresponse!.length,
-        ),replacement: Center(child: CircularProgressIndicator())
+        )
       ),
     );
   }

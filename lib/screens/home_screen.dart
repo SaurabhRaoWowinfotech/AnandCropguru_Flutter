@@ -29,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     TabController _tabController = TabController(length: 3, vsync: this);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
@@ -36,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             // automaticallyImplyLeading: false,
             shadowColor: Theme.of(context).primaryColor,
             expandedHeight: 415,
-            title: Text('Dr. Crop Guru'),
+            title: Text('Anand CropGuru', ),
             actions: [
               Icon(Icons.notifications, color: Colors.white),
               SizedBox(width: 8),
@@ -62,64 +63,62 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
           ),
         ],
-        body: Expanded(
-          child: Column(
-            children: [
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(9),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(0.0, 1.0), //(x,y)
-                      blurRadius: 5.0,
-                    ),
-                  ],
-                ),
-                child: TabBar(
-                  controller: _tabController,
-                  labelColor: Colors.black,
-                  unselectedLabelColor: Colors.grey,
-                  labelStyle: TextStyle(),
-                  indicatorWeight: 3.5,
-                  tabs: [
-                    Tab(
-                      text: 'DR. POST',
-                    ),
-                    Tab(
-                      text: 'BLOGS',
-                    ),
-                    Tab(
-                      text: 'FARMING\n  VIDEOS',
-                    ),
-                  ],
-                ),
+        body: Column(
+          children: [
+            Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(9),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    offset: Offset(0.0, 1.0), //(x,y)
+                    blurRadius: 5.0,
+                  ),
+                ],
               ),
-              Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: <Widget>[
-                    DrPostScreen(),
-                    Container(
-                      // height: 800,
-                      child: Center(
-                        child: Text("It's rainy here"),
-                      ),
-                    ),
-                    Container(
-                      height: 800,
-                      color: Colors.red,
-                      child: Center(
-                        child: Text("It's sunny here"),
-                      ),
-                    ),
-                  ],
-                ),
+              child: TabBar(
+                controller: _tabController,
+                labelColor: Colors.black,
+                unselectedLabelColor: Colors.grey,
+                // labelStyle: TextStyle(),
+                indicatorWeight: 3.5,
+                tabs: [
+                  Tab(
+                    text: 'DR. POST',
+                  ),
+                  Tab(
+                    text: 'BLOGS',
+                  ),
+                  Tab(
+                    text: 'FARMING\n  VIDEOS',
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: <Widget>[
+                  DrPostScreen(),
+                  Container(
+                    // height: 800,
+                    child: Center(
+                      child: Text("It's rainy here"),
+                    ),
+                  ),
+                  Container(
+                    height: 800,
+                    color: Colors.red,
+                    child: Center(
+                      child: Text("It's sunny here"),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -3,18 +3,21 @@
 import 'package:dr_crop_guru/Componts/MyPloatPage/add_to_diary.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 
 import '../../utils/Colors.dart';
 import '../../utils/util.dart';
 
 class Schedule1Details extends StatefulWidget {
-  const Schedule1Details({Key? key, this.titile, this.daysplanning, this.scheduleType, this.Quantitty, this.image, }) : super(key: key);
+  const Schedule1Details({Key? key, this.titile, this.daysplanning, this.scheduleType, this.Quantitty, this.image, this.text, }) : super(key: key);
   final titile;
   final daysplanning;
   final scheduleType;
   final Quantitty;
   final image;
+  final text;
+
 
   @override
   _ScheduleDetails1State createState() => _ScheduleDetails1State();
@@ -138,7 +141,11 @@ class _ScheduleDetails1State extends State<Schedule1Details> {
                               Row(
                                 children: [
                                   Text("Title:",style: TextStyle(color: kblack,fontSize: 15,fontWeight: FontWeight.bold)),
-                                  Text(" ${widget.titile}",style: TextStyle(color: kgreen,fontSize: 15,fontWeight: FontWeight.bold)),
+                                  SizedBox(
+                                    width: 280,
+                                    child: Text(maxLines:3, overflow: TextOverflow.ellipsis,
+                                        " ${widget.titile}",style: TextStyle(color: kgreen,fontSize: 15,fontWeight: FontWeight.bold)),
+                                  ),
                                 ],
                               ),
 
@@ -148,10 +155,8 @@ class _ScheduleDetails1State extends State<Schedule1Details> {
                           Row(
                             children: [
                               Text("Schedule Type :",style: TextStyle(color: kblack,fontSize: 15,fontWeight: FontWeight.bold)),
-                              Text(" ${widget.scheduleType}",style: TextStyle(color: kgreen,fontSize: 15,fontWeight: FontWeight.bold)),
-
-
-
+                              SizedBox(
+                                  child: Text(maxLines:2, overflow: TextOverflow.ellipsis," ${widget.scheduleType}",style: TextStyle(color: kgreen,fontSize: 15,fontWeight: FontWeight.bold))),
                             ],
                           ),
                           SizedBox(height: 15,),
@@ -160,12 +165,7 @@ class _ScheduleDetails1State extends State<Schedule1Details> {
                             return Image.asset("assets/images/noimage.png",height: 200,);
                           },)),
                           SizedBox(height: 20,),
-                          Row(
-                            children: [
-                              Text("Quantity :",style: TextStyle(color: kblack,fontSize: 15,fontWeight: FontWeight.bold)),
-                              Text("For spray pump (For 15 litres of water)",style: TextStyle(color: kgreen,fontSize: 15,fontWeight: FontWeight.bold)),
-                            ],
-                          ),
+
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text("",style: TextStyle(color: kblack,fontSize: 15,fontWeight: FontWeight.bold,height: 3)),
@@ -173,70 +173,13 @@ class _ScheduleDetails1State extends State<Schedule1Details> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("1) Propineb 70%W.P.",style: TextStyle(color: kblack,fontSize: 17,fontWeight: FontWeight.bold)),
-                          SizedBox(height: 15,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
 
-                              Text("1) (Antracol)",style: TextStyle(color: kblack,fontSize: 15,fontWeight: FontWeight.bold)),
-                              Text("",style: TextStyle(color: kblack,fontSize: 15,fontWeight: FontWeight.bold)),
-                              Text(":- 30 gm",style: TextStyle(color: kblack,fontSize: 15,fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                          SizedBox(height: 25,),
-                          Text("+2) Lambda Cyhalothrin 5%E.C",style: TextStyle(color: kblack,fontSize: 17,fontWeight: FontWeight.bold)),
-                          SizedBox(height: 15,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                    Html(
+                        data:widget.text),
 
-                              Text(" (Karate)",style: TextStyle(color: kblack,fontSize: 15,fontWeight: FontWeight.bold)),
-                              Text("",style: TextStyle(color: kblack,fontSize: 15,fontWeight: FontWeight.bold)),
-                              Text(":- 10 gm",style: TextStyle(color: kblack,fontSize: 15,fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                          SizedBox(height: 25,),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 43),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("+3) Dr. Ort",style: TextStyle(color: kblack,fontSize: 17,fontWeight: FontWeight.bold)),
-                                Text("30 gm",style: TextStyle(color: kblack,fontSize: 15,fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                          ),
 
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 30,),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: InkWell(
-                        onTap: (){
-                          Get.to(AddToDiary());
-                        },
-                        child: Container(
-                          height: 40,
-                          color: Colors.orange,
-                          child: Center(
-                            child:  Text("ADD TO DIARY",style: TextStyle(color: kWhite,fontSize: 15,fontWeight: FontWeight.bold)),
-                          ),
-                        ),
-                      ),
 
-                    ),
-                    SizedBox(height: 15,),
+
 
 
 

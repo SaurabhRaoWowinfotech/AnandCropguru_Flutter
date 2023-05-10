@@ -10,7 +10,10 @@ import '../add_purchase.dart';
 import 'add_purchase.dart';
 
 class Diary extends StatefulWidget {
-   Diary({Key? key}) : super(key: key);
+   Diary({Key? key, this.userId, this.plotID, this.cropID}) : super(key: key);
+   final userId;
+   final plotID;
+   final cropID;
 
   @override
   State<Diary> createState() => _DiaryState();
@@ -53,14 +56,10 @@ class _DiaryState extends State<Diary> with SingleTickerProviderStateMixin  {
                           Util.newHomeColor,
                           Util.endColor
                         ]
-
                     ),
-
                   ),
                 ),
-
                 shape: RoundedRectangleBorder(
-
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(25.0),
                     bottomRight: Radius.circular(25.0),
@@ -149,11 +148,11 @@ class _DiaryState extends State<Diary> with SingleTickerProviderStateMixin  {
               controller: _tabController,
               children: [
                 // first tab bar view widget
-                Expenses(),
+                Expenses(userID: widget.userId,cropID: widget.cropID,plotId: widget.plotID,),
 
 
                 // second tab bar view widget
-                Income()
+                Income(userId: widget.userId,cropID: widget.cropID, plotID: widget.plotID,)
               ],
             ),
           ),

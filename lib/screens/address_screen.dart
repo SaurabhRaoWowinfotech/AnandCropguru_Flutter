@@ -1,8 +1,11 @@
+import 'package:dr_crop_guru/home_page.dart';
 import 'package:dr_crop_guru/services.dart';
+import 'package:dr_crop_guru/utils/prefs_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../models/user.dart';
 import '../utils/util.dart';
 
 class AddressScreen extends StatefulWidget {
@@ -414,6 +417,50 @@ class _AddressScreenState extends State<AddressScreen>
                         return;
                       }
 
+                      showProgressIndicator();
+
+                      User user;
+                      Function temp = () async{
+                        user = await PrefsUtil.getUserDetails().then((value){
+                          value.STATE_ID = selectedStateID;
+                          value.STATE_NAME = selectedStateName;
+                          value.DISTRICT_ID = selectedDistrictID;
+                          value.DISTRICT_NAME = selectedDistrictName;
+                          value.TALUKA_ID = selectedTalukaID;
+                          value.TALUKA_NAME = selectedTalukaName;
+                          value.VILLAGE_NAME = villageNameController.text.toString().trim();
+                          return value;
+                        });
+                        PrefsUtil.setUserDetails(user);
+
+                        await Services.updateUserDetails(user).then((value) {
+                          if(value){
+                            PrefsUtil.setAddressUploaded();
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: 'Something went wrong!',
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.black,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          }
+                          return value;
+                        }).catchError((){
+                          Fluttertoast.showToast(
+                              msg: 'Something went wrong!',
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.black,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                        });
+                      };
+                      temp();
                     },
                     child: Text(
                       'Submit',

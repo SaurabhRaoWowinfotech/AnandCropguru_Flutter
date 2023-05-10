@@ -11,17 +11,21 @@ import '../../utils/Colors.dart';
 import '../../utils/util.dart';
 
 class FAQ extends StatefulWidget {
-  const FAQ({Key? key}) : super(key: key);
+   FAQ({Key? key, this.cropId, this.plotID, this.userID}) : super(key: key);
+  final cropId;
+  final plotID;
+  final userID;
 
   @override
   State<FAQ> createState() => _FAQState();
 }
 
-class _FAQState extends State<FAQ> {
+class _FAQState extends State<FAQ>with  TickerProviderStateMixin{
   late Map schedulemapresponse;
   List? schedulelistresponse;
   late Map faqemapresponse;
   List? faqlistresponse;
+  late AnimationController _controller;
 
   var jsonResponse;
   var faqjsonResponse;
@@ -32,34 +36,7 @@ class _FAQState extends State<FAQ> {
 
   bool isLoaded = false;
 
-  Future treelist() async {
-    http.Response response;
-    response = await http.post(
-        Uri.parse(
-            'https://mycropguruapiwow.cropguru.in/api/Question?CAT_ID=41'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(<String, String>{
-          "START": "0",
-          "END": "35000",
-          "WORD": "NONE",
-          "LANG_ID": "1",
-          "CROP_ID": "3",
-          "ACCESS_CODE": "123456",
-          "USER_ID": "60640",
-          "TYPE": "User",
-          "PLOT_ID": "69371"
-        }));
-    faqjsonResponse = json.decode(response.body);
-    massage = faqjsonResponse["ResponseMessage"];
-    print(faqjsonResponse["ResponseMessage"]);
-    if (response.statusCode == 200) {
-      faqemapresponse = json.decode(response.body);
-      faqlistresponse = faqemapresponse["DATA"];
-      data =faqemapresponse["DATA"];
 
-      isLoaded = true;
-    }
-  }
 
   Future faqapi() async {
     http.Response response;
@@ -73,9 +50,9 @@ class _FAQState extends State<FAQ> {
           "LANG_ID": "1",
           "CROP_ID": "3",
           "ACCESS_CODE": "123456",
-          "USER_ID": "60640",
+          "USER_ID": widget.userID,
           "TYPE": "User",
-          "PLOT_ID": "69371"
+          "PLOT_ID": widget.plotID
         }));
     jsonResponse = json.decode(response.body);
     massage = jsonResponse["ResponseMessage"];
@@ -87,11 +64,68 @@ class _FAQState extends State<FAQ> {
       isLoaded = true;
     }
   }
+  Future treelist() async {
+    http.Response response;
+    response = await http.post(
+        Uri.parse(
+            'https://mycropguruapiwow.cropguru.in/api/Question?CAT_ID=41'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(<String, String>{
+          "START": "0",
+          "END": "35000",
+          "WORD": "NONE",
+          "LANG_ID": "1",
+          "CROP_ID": "3",
+          "ACCESS_CODE": "123456",
+          "USER_ID": widget.userID,
+          "TYPE": "User",
+          "PLOT_ID": widget.plotID
+        }));
+    faqjsonResponse = json.decode(response.body);
+    massage = faqjsonResponse["ResponseMessage"];
+    print(faqjsonResponse["ResponseMessage"]);
+    if (response.statusCode == 200) {
+      faqemapresponse = json.decode(response.body);
+      faqlistresponse = faqemapresponse["DATA"];
+      data =faqemapresponse["DATA"];
 
+      isLoaded = true;
+    }
+  }
   @override
   void initState() {
-    faqapi();
     treelist();
+    // _controller = AnimationController(
+    //   duration: const Duration(
+    //       milliseconds: 3000),
+    //   vsync: this,
+    // );
+    // _controller.addListener(() {
+    //   if (_controller.isCompleted) {
+    //     _controller.reset();
+    //     _controller.forward();
+    //   }
+    // });
+    // WidgetsBinding.instance
+    //     .addPostFrameCallback(
+    //         (timeStamp) {
+    //       Util.animatedProgressDialog(
+    //           context, _controller);
+    //       _controller.forward();
+    //     });
+    // faqapi().then((value) {
+    //   _controller.reset();
+    //   Navigator.pop(context);
+    //   setState(() {});
+    //   return value;
+    // });
+    //
+    //
+    // faqapi().then((value) {
+    //   setState(() {});
+    //   return value;
+    // });
+
     // faqapi().then((value) {
     //   setState(() {});
     //
@@ -106,7 +140,16 @@ class _FAQState extends State<FAQ> {
     //
     //   return value;
     // });
+    Future.delayed(const Duration(milliseconds: 500), () {
 
+// Here you can write your code
+
+
+      setState(() {
+        // Here you can write your code for open new view
+      });
+
+    });
     // TODO: implement initState
     super.initState();
   }
@@ -159,7 +202,9 @@ class _FAQState extends State<FAQ> {
                 ),
               ),
               title: InkWell(
-                onTap: () {},
+                onTap: () {
+                  treelist();
+                },
                 child: Text(
                   'Question details',
                   style: TextStyle(

@@ -12,7 +12,10 @@ import '../../utils/Colors.dart';
 import '../../utils/util.dart';
 
 class AddYourQuestion extends StatefulWidget {
-  const AddYourQuestion({Key? key}) : super(key: key);
+  const AddYourQuestion({Key? key, this.userID, this.cropId, this.plotId}) : super(key: key);
+  final userID;
+  final cropId;
+  final plotId;
 
   @override
   State<AddYourQuestion> createState() => _AddYourQuestionState();
@@ -219,9 +222,11 @@ class _AddYourQuestionState extends State<AddYourQuestion> {
                 Spacer(),
                 InkWell(
                   onTap: () {
-                    print("hello ");
+                    print("hello${widget.userID} ");
                     if (_addQutionsShop.currentState!.validate()) {
+                      Navigator.pop(context);
                       AddQuestion.userRegistration(
+                        widget.userID.toString(),widget.plotId.toString(),
                           questtionansController.text, imageData.toString());
                     } else {}
                   },

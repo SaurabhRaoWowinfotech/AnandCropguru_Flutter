@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dr_crop_guru/home_page.dart';
 import 'package:dr_crop_guru/screens/address_screen.dart';
 import 'package:dr_crop_guru/screens/login_screen.dart';
+import 'package:dr_crop_guru/screens/place_order_screen.dart';
 import 'package:dr_crop_guru/screens/select_language_screen.dart';
 import 'package:dr_crop_guru/test.dart';
 import 'package:dr_crop_guru/utils/prefs_util.dart';
@@ -37,23 +38,31 @@ class _SplashScreenState extends State<SplashScreen>
       //   OTPVerified = await PrefsUtil.getOTPVerified();
       //   addressUploaded = await PrefsUtil.getAddressUploaded();
       // };
-      //
+
       // getProgress();
       // PrefsUtil.removeUser().then((value) {
-      // PrefsUtil.getOTPVerified().then((value) {
-      //   if (!value) {
-      //     Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-      //     return;
-      //   }
-      //   PrefsUtil.getAddressUploaded().then((value) {
-      //     if (!value) {
-      //       Navigator.pushReplacementNamed(context, AddressScreen.routeName);
-      //       return;
-      //     }
-      //     Navigator.pushReplacementNamed(context, HomePage.routeName);
-      //   });
-      // });
-      Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+
+      //Main Code starts here...
+      PrefsUtil.getOTPVerified().then((value) {
+        if (!value) {
+          Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+          return;
+        }
+        PrefsUtil.getAddressUploaded().then((value) {
+          if (!value) {
+            Navigator.pushReplacementNamed(context, AddressScreen.routeName);
+            return;
+          }
+          Navigator.pushReplacementNamed(context, HomePage.routeName);
+        });
+      });
+      //ends here.
+
+      // Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+
+      // Navigator.of(context).pushReplacementNamed(PlaceOrderScreen.routeName);
+
+
       // });
     });
   }
@@ -83,6 +92,11 @@ class _SplashScreenState extends State<SplashScreen>
       curve: Curves.decelerate,
     );
 
+    //Temp starts here
+    // startTimer();
+
+
+    //Original starts here...
     Util.isNetworkConnected().then((value) {
       if (value) {
         startTimer();
@@ -149,6 +163,8 @@ class _SplashScreenState extends State<SplashScreen>
         );
       }
     });
+
+    //ends here...
   }
 
   @override
