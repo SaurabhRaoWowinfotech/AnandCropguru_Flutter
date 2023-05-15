@@ -6,6 +6,11 @@ import 'package:dr_crop_guru/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../Componts/Social.dart';
+import '../Componts/anand_biochemr_R_&_d_center.dart';
+import '../Componts/emergencycall.dart';
+import '../Componts/weather.dart';
+
 class UpperHomeScreen extends StatefulWidget {
   const UpperHomeScreen({super.key});
 
@@ -70,11 +75,27 @@ class _UpperHomeScreenState extends State<UpperHomeScreen> {
                           child: SeeByListItem(DummyData.seeByFeed[0]['title'], DummyData.seeByFeed[0]['imageSrc'], DummyData.seeByFeed[0]['title'] == 'Weather' ? Image.asset(DummyData.seeByFeed[0]['imageSrc'], color: Util.orangee,) : Image.asset(DummyData.seeByFeed[0]['imageSrc'],))
 
                       ),
-                      InkWell(child: SeeByListItem(DummyData.seeByFeed[1]['title'], DummyData.seeByFeed[0]['imageSrc'], DummyData.seeByFeed[0]['title'] == 'Weather' ? Image.asset(DummyData.seeByFeed[0]['imageSrc'], color: Util.orangee,) : Image.asset(DummyData.seeByFeed[0]['imageSrc'],))),
+                      InkWell(
+                        onTap: (){
+                          Get.to(Weather());
+                        },
+                          child: SeeByListItem(DummyData.seeByFeed[1]['title'], DummyData.seeByFeed[0]['imageSrc'], DummyData.seeByFeed[0]['title'] == 'Weather' ? Image.asset(DummyData.seeByFeed[0]['imageSrc'], color: Util.orangee,) : Image.asset(DummyData.seeByFeed[0]['imageSrc'],))),
                       SeeByListItem(DummyData.seeByFeed[2]['title'], DummyData.seeByFeed[0]['imageSrc'], DummyData.seeByFeed[0]['title'] == 'Weather' ? Image.asset(DummyData.seeByFeed[0]['imageSrc'], color: Util.orangee,) : Image.asset(DummyData.seeByFeed[0]['imageSrc'],)),
-                      SeeByListItem(DummyData.seeByFeed[3]['title'], DummyData.seeByFeed[0]['imageSrc'], DummyData.seeByFeed[0]['title'] == 'Weather' ? Image.asset(DummyData.seeByFeed[0]['imageSrc'], color: Util.orangee,) : Image.asset(DummyData.seeByFeed[0]['imageSrc'],)),
-                      SeeByListItem(DummyData.seeByFeed[4]['title'], DummyData.seeByFeed[0]['imageSrc'], DummyData.seeByFeed[0]['title'] == 'Weather' ? Image.asset(DummyData.seeByFeed[0]['imageSrc'], color: Util.orangee,) : Image.asset(DummyData.seeByFeed[0]['imageSrc'],)),
-                      SeeByListItem(DummyData.seeByFeed[5]['title'], DummyData.seeByFeed[0]['imageSrc'], DummyData.seeByFeed[0]['title'] == 'Weather' ? Image.asset(DummyData.seeByFeed[0]['imageSrc'], color: Util.orangee,) : Image.asset(DummyData.seeByFeed[0]['imageSrc'],))
+                      InkWell(
+                        onTap: (){
+                          Get.to(AnandBiochemRandDCenter());
+                        },
+                          child: SeeByListItem(DummyData.seeByFeed[3]['title'], DummyData.seeByFeed[0]['imageSrc'], DummyData.seeByFeed[0]['title'] == 'Weather' ? Image.asset(DummyData.seeByFeed[0]['imageSrc'], color: Util.orangee,) : Image.asset(DummyData.seeByFeed[0]['imageSrc'],))),
+                      InkWell(
+                        onTap: (){
+                          Get.to(EmergencyCall());
+                        },
+                          child: SeeByListItem(DummyData.seeByFeed[4]['title'], DummyData.seeByFeed[0]['imageSrc'], DummyData.seeByFeed[0]['title'] == 'Weather' ? Image.asset(DummyData.seeByFeed[0]['imageSrc'], color: Util.orangee,) : Image.asset(DummyData.seeByFeed[0]['imageSrc'],))),
+                      InkWell(
+                        onTap: (){
+                          Get.to(Social());
+                        },
+                          child: SeeByListItem(DummyData.seeByFeed[5]['title'], DummyData.seeByFeed[0]['imageSrc'], DummyData.seeByFeed[0]['title'] == 'Weather' ? Image.asset(DummyData.seeByFeed[0]['imageSrc'], color: Util.orangee,) : Image.asset(DummyData.seeByFeed[0]['imageSrc'],)))
                     ]
 
 

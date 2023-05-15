@@ -74,7 +74,7 @@ class _AddPurchasesState extends State<AddPurchases> {
       setState(() {
         _dateTime = dateTiming!;
         salectedDatebackundDevloper =
-            "${_dateTime.day}/${_dateTime.month}/${_dateTime.year}";
+        "${_dateTime.day}/${_dateTime.month}/${_dateTime.year}";
         timedate_Controller.text = salectedDatebackundDevloper.toString();
         print("Date $salectedDatebackundDevloper");
       });
@@ -236,54 +236,54 @@ class _AddPurchasesState extends State<AddPurchases> {
           preferredSize: Size.fromHeight(60.0),
           child: Container(
               child: AppBar(
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(30.0),
-                  bottomRight: Radius.circular(30.0),
-                ),
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Util.newHomeColor, Util.endColor]),
-              ),
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(25.0),
-                bottomRight: Radius.circular(25.0),
-              ),
-            ),
-            elevation: 0,
-            backgroundColor: Colors.green,
-            leading: Builder(
-              builder: (context) => IconButton(
-                icon: InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: kWhite,
+                flexibleSpace: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30.0),
+                      bottomRight: Radius.circular(30.0),
+                    ),
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Util.newHomeColor, Util.endColor]),
                   ),
                 ),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-              ),
-            ),
-            title: GestureDetector(
-              onTapDown: (TapDownDetails details) {
-                _showPopupMenu(details.globalPosition);
-              },
-              child: Text(
-                'Add Purchase',
-                style: TextStyle(
-                    color: kWhite, fontSize: 25, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ))),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(25.0),
+                    bottomRight: Radius.circular(25.0),
+                  ),
+                ),
+                elevation: 0,
+                backgroundColor: Colors.green,
+                leading: Builder(
+                  builder: (context) => IconButton(
+                    icon: InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: kWhite,
+                      ),
+                    ),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                  ),
+                ),
+                title: GestureDetector(
+                  onTapDown: (TapDownDetails details) {
+                    _showPopupMenu(details.globalPosition);
+                  },
+                  child: Text(
+                    'Add Purchase',
+                    style: TextStyle(
+                        color: kWhite, fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ))),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -372,17 +372,17 @@ class _AddPurchasesState extends State<AddPurchases> {
                               color: lightgreen,
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 3),
+                                const EdgeInsets.symmetric(horizontal: 3),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     Expanded(
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
                                             height: 5,
@@ -430,7 +430,7 @@ class _AddPurchasesState extends State<AddPurchases> {
                                                       width: 1.0,
                                                     ),
                                                     borderRadius:
-                                                        BorderRadius.circular(2),
+                                                    BorderRadius.circular(2),
                                                   ),
                                                 ),
                                               ),
@@ -445,9 +445,9 @@ class _AddPurchasesState extends State<AddPurchases> {
                                     Expanded(
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
                                             height: 5,
@@ -488,17 +488,17 @@ class _AddPurchasesState extends State<AddPurchases> {
                               color: lightgreen,
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 3),
+                                const EdgeInsets.symmetric(horizontal: 3),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     Expanded(
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
                                             height: 5,
@@ -543,7 +543,7 @@ class _AddPurchasesState extends State<AddPurchases> {
                                                       width: 1.0,
                                                     ),
                                                     borderRadius:
-                                                        BorderRadius.circular(2),
+                                                    BorderRadius.circular(2),
                                                   ),
                                                 ),
                                               ),
@@ -558,9 +558,9 @@ class _AddPurchasesState extends State<AddPurchases> {
                                     Expanded(
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
                                             height: 5,
@@ -605,7 +605,7 @@ class _AddPurchasesState extends State<AddPurchases> {
                                                       width: 1.0,
                                                     ),
                                                     borderRadius:
-                                                        BorderRadius.circular(2),
+                                                    BorderRadius.circular(2),
                                                   ),
                                                 ),
                                               ),
@@ -664,7 +664,7 @@ class _AddPurchasesState extends State<AddPurchases> {
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                     hintStyle:
-                                        TextStyle(color: kgreyy, fontSize: 13),
+                                    TextStyle(color: kgreyy, fontSize: 13),
                                     contentPadding: EdgeInsets.only(
                                         top: 0, bottom: 16, left: 6, right: 6),
                                     // errorText: _mobileValidated ? null : _mobileError,
@@ -760,7 +760,7 @@ class _AddPurchasesState extends State<AddPurchases> {
                                               )),
                                         ],
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                       ),
                                       SizedBox(
                                         height: 25,
@@ -771,15 +771,15 @@ class _AddPurchasesState extends State<AddPurchases> {
                                         decoration: BoxDecoration(
                                             color: kgreen,
                                             borderRadius:
-                                                BorderRadius.circular(5)),
+                                            BorderRadius.circular(5)),
                                         child: Center(
                                             child: Text(
-                                          "Cancel",
-                                          style: TextStyle(
-                                              color: kWhite,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        )),
+                                              "Cancel",
+                                              style: TextStyle(
+                                                  color: kWhite,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold),
+                                            )),
                                       )
                                     ],
                                   ),
@@ -793,10 +793,10 @@ class _AddPurchasesState extends State<AddPurchases> {
                               borderRadius: BorderRadius.circular(5)),
                           child: Center(
                               child: Icon(
-                            Icons.camera_alt_outlined,
-                            color: kgreen,
-                            size: 30,
-                          )),
+                                Icons.camera_alt_outlined,
+                                color: kgreen,
+                                size: 30,
+                              )),
                         ),
                       ),
                     ),
@@ -839,28 +839,28 @@ class _AddPurchasesState extends State<AddPurchases> {
                             ),
                           ),
                         )),
-                   Center(
-                     child: Container(
-                       height: 40,
-                       width: 150,
+                    Center(
+                      child: Container(
+                        height: 40,
+                        width: 150,
 
-                       decoration: BoxDecoration(
-                           boxShadow: [
-                             BoxShadow(
-                               color: Colors.grey.withOpacity(0.5),
-                               spreadRadius: 2,
-                               blurRadius: 5,
-                               offset: Offset(0, 3), // changes position of shadow
-                             ),
-                           ],
-                         border: Border.all(width: 1,color: kWhite),
-                         color: kgreen,
-                         borderRadius: BorderRadius.circular(8)
-                             
-                       ),
-                       child: Center(child: Text("Submit",style: TextStyle(color: kWhite,fontSize: 18,fontWeight: FontWeight.bold),)),
-                     ),
-                   ),
+                        decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                            border: Border.all(width: 1,color: kWhite),
+                            color: kgreen,
+                            borderRadius: BorderRadius.circular(8)
+
+                        ),
+                        child: Center(child: Text("Submit",style: TextStyle(color: kWhite,fontSize: 18,fontWeight: FontWeight.bold),)),
+                      ),
+                    ),
                     SizedBox(height: 23,)
                   ],
                 ),
@@ -883,7 +883,7 @@ class _AddPurchasesState extends State<AddPurchases> {
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 contentPadding:
-                    EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                EdgeInsets.symmetric(horizontal: 0, vertical: 0),
               ),
               value: _value2,
               hint: Text(
@@ -915,7 +915,7 @@ class _AddPurchasesState extends State<AddPurchases> {
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 contentPadding:
-                    EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                EdgeInsets.symmetric(horizontal: 0, vertical: 0),
               ),
               value: _value5,
               hint: Text(
@@ -947,7 +947,7 @@ class _AddPurchasesState extends State<AddPurchases> {
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 contentPadding:
-                    EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                EdgeInsets.symmetric(horizontal: 0, vertical: 0),
               ),
               value: _value3,
               hint: Text(
@@ -1007,24 +1007,24 @@ class _AddPurchasesState extends State<AddPurchases> {
                                           horizontal: 12),
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                         children: [
                                           Center(
                                               child: Text(
-                                            "",
-                                            style: TextStyle(
-                                                color: kWhite,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                          )),
+                                                "",
+                                                style: TextStyle(
+                                                    color: kWhite,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold),
+                                              )),
                                           Center(
                                               child: Text(
-                                            "Add New Product",
-                                            style: TextStyle(
-                                                color: kWhite,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                          )),
+                                                "Add New Product",
+                                                style: TextStyle(
+                                                    color: kWhite,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold),
+                                              )),
                                           Align(
                                             alignment: Alignment.centerRight,
                                             child: Material(
@@ -1070,7 +1070,7 @@ class _AddPurchasesState extends State<AddPurchases> {
                                       child: Form(
                                         key: _addProduct,
                                         child:  TextFormField(
-                                           controller: addProduct_Controller,
+                                          controller: addProduct_Controller,
                                           decoration: InputDecoration(
                                             // errorText: _mobileValidated ? null : _mobileError,
                                             contentPadding: EdgeInsets.only(
@@ -1085,7 +1085,7 @@ class _AddPurchasesState extends State<AddPurchases> {
                                                 width: 1.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(6),
+                                              BorderRadius.circular(6),
                                             ),
                                           ),
                                           validator:  (text) {
@@ -1108,7 +1108,7 @@ class _AddPurchasesState extends State<AddPurchases> {
                                         if (_addProduct.currentState!.validate()) {
                                           addProduct();
 
-                                         // _addProduct.userRegistration(questtionansController.text,imageData.toString());
+                                          // _addProduct.userRegistration(questtionansController.text,imageData.toString());
                                         }else{
 
                                         }
@@ -1120,38 +1120,38 @@ class _AddPurchasesState extends State<AddPurchases> {
                                         decoration: BoxDecoration(
                                             color: kgreen,
                                             borderRadius:
-                                                BorderRadius.circular(5)),
+                                            BorderRadius.circular(5)),
                                         child: Center(
                                             child: isLoaded == true
                                                 ? Text(
-                                                    "Send",
-                                                    style: TextStyle(
-                                                        color: kWhite,
-                                                        fontSize: Fromsize,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  )
+                                              "Send",
+                                              style: TextStyle(
+                                                  color: kWhite,
+                                                  fontSize: Fromsize,
+                                                  fontWeight:
+                                                  FontWeight.bold),
+                                            )
                                                 : Center(
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(3.0),
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        children: [
-                                                          SizedBox(
-                                                            height: 15,
-                                                            width: 15,
-                                                            child: CircularProgressIndicator(
-                                                                strokeWidth:2,
-                                                                color:
-                                                                    kWhite),
-                                                          ),
-                                                          SizedBox( width: 13,),
-                                                          Text("Please Wait...",  style: TextStyle(
-                                                            color: Colors.white,
-                                                          ),)
-                                                        ],
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(3.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      SizedBox(
+                                                        height: 15,
+                                                        width: 15,
+                                                        child: CircularProgressIndicator(
+                                                            strokeWidth:2,
+                                                            color:
+                                                            kWhite),
                                                       ),
-                                                    ))),
+                                                      SizedBox( width: 13,),
+                                                      Text("Please Wait...",  style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),)
+                                                    ],
+                                                  ),
+                                                ))),
                                       ),
                                     ),
                                   )
@@ -1172,6 +1172,5 @@ class _AddPurchasesState extends State<AddPurchases> {
     );
   }
 }
-
 
 

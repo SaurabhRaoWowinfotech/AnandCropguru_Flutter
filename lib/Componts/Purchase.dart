@@ -7,10 +7,14 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../utils/util.dart';
+import 'MyPloatPage/add_purchase_myfarms.dart';
+import 'MyPloatPage/full_size_image.dart';
 import 'SelectCrop.dart';
 
 class Purchase extends StatefulWidget {
   Purchase({Key? key}) : super(key: key);
+
+
 
   @override
   State<Purchase> createState() => _PurchaseState();
@@ -41,7 +45,7 @@ class _PurchaseState extends State<Purchase> with TickerProviderStateMixin {
           "EXTRA2": "",
           "EXTRA3": "",
           "LANG_ID": "1",
-          "USER_ID": "61012",
+          "USER_ID": "60640",
           "CAT_ID": ""
         }));
     jsonResponse = json.decode(response.body);
@@ -52,9 +56,9 @@ class _PurchaseState extends State<Purchase> with TickerProviderStateMixin {
       data = listresponse.toString();
       msg = jsonResponse["ResponseMessage"];
       isLoaded = true;
+      dynamic imagelist;
     }
   }
-
   @override
   void initState() {
     _controller = AnimationController(
@@ -89,7 +93,7 @@ class _PurchaseState extends State<Purchase> with TickerProviderStateMixin {
         child: Icon(Icons.add),
         backgroundColor: Colors.orange,
         onPressed: () {
-          Get.to(SelecctCrop(),transition: Transition.cupertinoDialog ,duration: Duration(seconds: 1));
+         // Get.to(AddPurchasesMyFroms(),transition: Transition.cupertinoDialog ,duration: Duration(seconds: 1));
 
         },
       ),
@@ -97,6 +101,9 @@ class _PurchaseState extends State<Purchase> with TickerProviderStateMixin {
         visible: isLoaded,
         child: ListView.builder(
           itemBuilder: (context, index) {
+          final  imagelist=listresponse![index]["BILL_PHORO"].toString();
+          final purchasedate =listresponse![index]["PURCHASE_DATE"].toString();
+          final remark =listresponse![index]["PURCHASE_DATE"].toString();
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
               child: InkWell(
@@ -123,7 +130,7 @@ class _PurchaseState extends State<Purchase> with TickerProviderStateMixin {
                                     color: kWhite,
                                     borderRadius: BorderRadius.circular(5)),
                                 width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height - 240,
+
                                 child: new Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,7 +145,6 @@ class _PurchaseState extends State<Purchase> with TickerProviderStateMixin {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             // crossAxisAlignment: CrossAxisAlignment.center,
-
                                             children: [
                                               Center(
                                                   child: Text(
@@ -191,8 +197,7 @@ class _PurchaseState extends State<Purchase> with TickerProviderStateMixin {
                                       height: 5,
                                     ),
                                     TextfildForms(
-                                      name: listresponse![index]["PRODUCT_NAME"]
-                                          .toString(),
+                                      name: listresponse![index]["PRODUCT_NAME"].toString(),
                                     ),
                                     SizedBox(
                                       height: 8,
@@ -269,8 +274,7 @@ class _PurchaseState extends State<Purchase> with TickerProviderStateMixin {
                                                       const EdgeInsets.symmetric(
                                                           horizontal: 5),
                                                   child: Text(
-                                                    listresponse![index]["SIZE"]
-                                                        .toString(),
+                                                    listresponse![index]["SIZE"].toString(),
                                                     style: TextStyle(
                                                         color: kblack,
                                                         fontSize: 15),
@@ -294,9 +298,7 @@ class _PurchaseState extends State<Purchase> with TickerProviderStateMixin {
                                                       const EdgeInsets.symmetric(
                                                           horizontal: 5),
                                                   child: Text(
-                                                    listresponse![index]
-                                                            ["UNIT_NAME"]
-                                                        .toString(),
+                                                    listresponse![index]["UNIT_NAME"].toString(),
                                                     style: TextStyle(
                                                         color: kblack,
                                                         fontSize: 15),
@@ -389,9 +391,7 @@ class _PurchaseState extends State<Purchase> with TickerProviderStateMixin {
                                                       const EdgeInsets.symmetric(
                                                           horizontal: 5),
                                                   child: Text(
-                                                    listresponse![index]
-                                                            ["QUANTITY"]
-                                                        .toString(),
+                                                    listresponse![index]["QUANTITY"].toString(),
                                                     style: TextStyle(
                                                         color: kblack,
                                                         fontSize: 15),
@@ -439,7 +439,7 @@ class _PurchaseState extends State<Purchase> with TickerProviderStateMixin {
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 5),
                                                 child: Text(
-                                                  listresponse![index]["PURCHASE_DATE "].toString(),
+                                                  purchasedate,
                                                   style: TextStyle(
                                                       color: kblack,
                                                       fontSize: 15),
@@ -457,38 +457,59 @@ class _PurchaseState extends State<Purchase> with TickerProviderStateMixin {
                                     SizedBox(
                                       height: 8,
                                     ),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.symmetric(
-                                    //       horizontal: 10),
-                                    //   child: Text(
-                                    //     "Product Name",
-                                    //     style: TextStyle(
-                                    //         color: kblack, fontSize: Fromsize),
-                                    //   ),
-                                    // ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      child:imagelist == "" ?Text(""): Text(
+                                        "Bill photo",
+                                        style: TextStyle(
+                                            color: kblack, fontSize: Fromsize),
+                                      ),
+                                    ),
                                     SizedBox(
                                       height: 5,
                                     ),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.symmetric(
-                                    //       horizontal: 10),
-                                    //   child: Container(
-                                    //     height: 150,
-                                    //     decoration: BoxDecoration(
-                                    //       color: kblack,
-                                    //       borderRadius: BorderRadius.circular(5),
-                                    //     ),
-                                    //     child: Center(
-                                    //       child: Icon(
-                                    //         Icons.camera_alt_sharp,
-                                    //         color: lgreen,
-                                    //         size: 30,
-                                    //       ),
-                                    //     ),
-                                    //   ),
-                                    // ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      child: imagelist == "" ?Text(""):Material(
+                                        child: InkWell(
+                                          onTap: (){
+                                            Get.to(FullSizeImage(image: imagelist));
+                                          },
+                                          child: Material(
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              height: 150,
+                                              decoration: BoxDecoration(
+                                                color: kWhite,
+                                                borderRadius: BorderRadius.circular(5),
+                                              ),
+                                              child:listresponse![index]["BILL_PHORO"].toString() == " "? Center(
+                                                child: Icon(
+                                                  Icons.camera_alt_sharp,
+                                                  color: lgreen,
+                                                  size: 30,
+                                                ),
+                                              ):Stack(
+                                                children: [
+                                                  Image.network( fit:BoxFit.fill,height: 200 ,width: MediaQuery.of(context).size.width,
+                                                    listresponse![index]["BILL_PHORO"].toString(),errorBuilder: (context, error,
+                                                        stackTrace) {
+                                                      return Center(child: Image.asset("assets/images/noimage.png",height: 200,));
+                                                    },),
+                                                  Center(child:Icon(Icons.camera_alt,size: 28,color:kgreen),
+                                                  )
+                                                ],
+
+                                              )
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ),
                                     SizedBox(
-                                      height: 15,
+                                      height: 5,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -520,10 +541,7 @@ class _PurchaseState extends State<Purchase> with TickerProviderStateMixin {
                                                 listresponse![index]["REMARK "] ==
                                                         null
                                                     ? ""
-                                                    : listresponse![index]
-                                                            ["REMARK "]
-                                                        .toString(),
-                                                style: TextStyle(
+                                                    : remark.toString(),style: TextStyle(
                                                     color: kblack, fontSize: 15),
                                               ),
                                             ),

@@ -339,7 +339,6 @@ class _FAQState extends State<FAQ>with  TickerProviderStateMixin{
                         child: Visibility(
                           visible: isLoaded,
                           child: ListView.builder(
-
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
@@ -354,10 +353,10 @@ class _FAQState extends State<FAQ>with  TickerProviderStateMixin{
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Image.network(
-                                          schedulelistresponse![index]["QC_IMG"]
-                                              .toString(),
+                                          schedulelistresponse![index]["QC_IMG"].toString(),
                                           height: 50,
                                           fit: BoxFit.cover,
+
                                         ),
                                       ),
                                     ),
@@ -365,8 +364,7 @@ class _FAQState extends State<FAQ>with  TickerProviderStateMixin{
                                       height: 13,
                                     ),
                                     Text(
-                                      schedulelistresponse![index]["QC_NAME"]
-                                          .toString(),
+                                      schedulelistresponse![index]["QC_NAME"].toString(),
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
@@ -375,10 +373,7 @@ class _FAQState extends State<FAQ>with  TickerProviderStateMixin{
                                   ],
                                 ),
                               );
-                            },
-                            itemCount: schedulelistresponse == null
-                                ? 0
-                                : schedulelistresponse!.length,
+                            }, itemCount: schedulelistresponse == null ? 0 : schedulelistresponse!.length,
                           ),replacement: Center(child: CircularProgressIndicator())
                         ),
                       ),

@@ -160,7 +160,8 @@ class _ScheduleDetails1State extends State<Schedule1Details> {
                             ],
                           ),
                           SizedBox(height: 15,),
-                          Center(child: Image.network(widget.image,height: 200,errorBuilder: (context, error,
+                          Center(child: Image.network(widget.image,height: 200,
+                            errorBuilder: (context, error,
                               stackTrace) {
                             return Image.asset("assets/images/noimage.png",height: 200,);
                           },)),

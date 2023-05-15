@@ -18,6 +18,7 @@ Color kblue = Colors.blueAccent;
 Color kgrey = Colors.grey;
 
 HexColor kgreen = HexColor("#47964A");
+HexColor ksoilColor = HexColor("#E9E7E7");
 HexColor kpink = HexColor("#FFCDD2");
 HexColor pgrey = HexColor("#F8F7F7");
 HexColor lgreen = HexColor("#6FB634");
