@@ -321,28 +321,22 @@ class AddAnandBichemRDCenter extends StatelessWidget {
             onTap: (){
       if (anandcenter.currentState!.validate()) {
         Navigator.pop(context);
-
+        AnandBiochemCenterApi.anandBiochemRanddcenter(category,amount,addresssController.text,pincodeController.text,remarkController.text);
       } else {
+
 
       }
     },
+            child: Container(
+              alignment: Alignment.center,
+              height: 50,
+              color: kgreen,
+              child: Text(
+                "Submit",
+                style: TextStyle(
+                    color: kWhite,
+                    fontSize: 18,
 
-
-            child: InkWell(
-              onTap: (){
-                AnandBiochemCenterApi.anandBiochemRanddcenter(category,amount);
-              },
-              child: Container(
-                alignment: Alignment.center,
-                height: 50,
-                color: kgreen,
-                child: Text(
-                  "Submit",
-                  style: TextStyle(
-                      color: kWhite,
-                      fontSize: 18,
-
-                  ),
                 ),
               ),
             ),

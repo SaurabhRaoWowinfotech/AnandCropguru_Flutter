@@ -2,23 +2,41 @@
 
 import 'package:dr_crop_guru/utils/Colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../Api/bulk_order_api.dart';
 import '../../utils/util.dart';
 
 
-class BulkOrder extends StatelessWidget {
-  BulkOrder({Key? key, this.category, this.amount, this.imageurl, this.videourl}) : super(key: key);
-  final category;
-  final amount;
-  final imageurl;
-  final videourl;
+class BulkOrder extends StatefulWidget {
+ // BulkOrder({Key? key, this.category, this.amount, this.imageurl, this.videourl}) : super(key: key);
 
+
+  @override
+  State<BulkOrder> createState() => _BulkOrderState();
+}
+
+class _BulkOrderState extends State<BulkOrder>   with TickerProviderStateMixin {
   String? url;
+
+  TextEditingController shopNameController = TextEditingController();
+  TextEditingController mobilenumberController = TextEditingController();
   TextEditingController pincodeController = TextEditingController();
   TextEditingController addresssController = TextEditingController();
+  TextEditingController pannumberController = TextEditingController();
+  TextEditingController gstnumberController = TextEditingController();
   TextEditingController remarkController = TextEditingController();
+
+  List<String> items = <String>['Select Report Type','Dealership', 'Distributorship', 'FPO','Other'];
+
+  String dropdownvalue = 'Select Report Type';
+
   dynamic imageData = "";
+
+  late AnimationController _controller;
+
   final anandcenter = GlobalKey<FormState>();
 
   @override
@@ -47,7 +65,7 @@ class BulkOrder extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(width: 3,),
 
@@ -60,7 +78,7 @@ class BulkOrder extends StatelessWidget {
                       ),
                       SizedBox(width: 9,),
                       Text(
-                        "Anand Biochem R & D Center",
+                        "Bulk Order",
                         style: TextStyle(
                             color: kWhite,
                             fontSize: 20,
@@ -85,7 +103,7 @@ class BulkOrder extends StatelessWidget {
                       children: [
                         SizedBox(height: 20,),
                         Text(
-                          "Category :",
+                          "Bulk Order Type",
                           style: TextStyle(
                               color: kgreen,
                               fontSize: 14,
@@ -94,115 +112,122 @@ class BulkOrder extends StatelessWidget {
                         SizedBox(
                           height: 5,
                         ),
-                        Container(
+                        SizedBox(
                           height: 40,
-                          decoration: BoxDecoration(
-                              color: ksoilColor,
-                              borderRadius: BorderRadius.circular(5)
-                          ),
-                          child:  Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            child: Row(
-                              children: [
-                                Text(
-                                  category,
-                                  style: TextStyle(
-                                    color: kblack,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                        ),
-                        SizedBox(height: 10,),
-                        Text(
-                          "Amount :",
-                          style: TextStyle(
-                              color: kgreen,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                          height: 40,
-                          decoration: BoxDecoration(
-                              border: Border.all(width: 1,color: kgrey),
-                              borderRadius: BorderRadius.circular(5)
-
-                          ),
-                          child:   Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            child: Row(
-                              children: [
-                                Text(
-                                  amount.toString(),
-                                  style: TextStyle(
-                                    color: kblack,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-
-                        ),
-                        SizedBox(height: 10,),
-
-                        Text(
-                          "How to collect sample ? ",
-                          style: TextStyle(
-                              color: kgreen,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            print("hello");
-
-                            url = "https://www.youtube.com/watch?v=${videourl}";
-                            if (await canLaunch(url!)) {
-                              await launch(
-                                url!,
-                                headers: {
-                                  "Content-Type": "application/x-www-form-urlencoded",
-                                  "Content-Disposition": "inline"
-                                },
-                              );
-                              print("browser url");
-                              print(url);
-                            } else
-                              // can't launch url, there is some error
-                              throw "Could not launch $url";
-                          },
                           child: Container(
-                            alignment: Alignment.center,
-                            height: 150,
                             decoration: BoxDecoration(
-                                border: Border.all(width: 1,color: kgrey),
+                              //color: kblack,
+                                border: Border.all(color: kgrey),
                                 borderRadius: BorderRadius.circular(5)
-
                             ),
-                            child: Stack(
-                              children: [
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                              child: DropdownButtonHideUnderline(
 
-                                Image.network(imageurl,fit: BoxFit.cover,width: MediaQuery.of(context).size.width,height:MediaQuery.of(context).size.height ,),
-                                Center(child: Image.asset("assets/images/play.png",height: 40,color: Colors.red,)),
-                              ],
+                                child: DropdownButton<String>(
+                                  hint: Text("Select Report Type"),
+                                  isExpanded: true,
+                                  iconSize: 34,
+                                  value: dropdownvalue,
+                                  items: items
+                                      .map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                        value: value, child: Text(value));
+                                  }).toList(),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      dropdownvalue = newValue ?? '';
+                                    });
+                                  },
+                                ),
+                              ),
                             ),
                           ),
                         ),
                         SizedBox(height: 10,),
+                        Text(
+                          "Shop Name / Company Name :",
+                          style: TextStyle(
+                              color: kgreen,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        TextFormField(
+                          controller: shopNameController,
+                          onChanged: (value) {},
+                          style: TextStyle(fontSize: 13),
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(5.0),
+                            hintText: 'Shop Name / Company Name',
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                //  color: Util.colorPrimary,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          ),
+                          validator: (text) {
+                            if (text!.isEmpty) {
+                              return "Shop Name / Company Name";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 10,),
+
+                        SizedBox(height: 10,),
+                        Text(
+                          "Mobile no",
+                          style: TextStyle(
+                              color: kgreen,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        TextFormField(
+                          controller: mobilenumberController,
+                          onChanged: (value) {},
+                          style: TextStyle(fontSize: 13),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                          ],
+
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(5.0),
+
+                            hintText: 'mobile no',
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                //  color: Util.colorPrimary,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "";
+                              } else if (value.length < 10) {
+                                return '';
+                              } else if (!RegExp(
+                                  r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$')
+                                  .hasMatch(value)) {
+                                return "Please Enter a Valid Phone Number";
+                              }
+                            }
+                        ),
+                        SizedBox(height: 10,),
+
 
                         Text(
-                          "Pin Code :",
+                          "Pin Code ",
                           style: TextStyle(
                               color: kgreen,
                               fontSize: 14,
@@ -222,7 +247,7 @@ class BulkOrder extends StatelessWidget {
                             contentPadding: EdgeInsets.all(5.0),
                             //   errorText: _mobileValidated ? null : _mobileError,
                             //  suffixIcon: Icon(Icons.call),
-                            hintText: 'Enter Question',
+                            hintText: 'pin code',
                             border: OutlineInputBorder(
                               borderSide: BorderSide(
                                 //  color: Util.colorPrimary,
@@ -271,28 +296,22 @@ class BulkOrder extends StatelessWidget {
                         ),
                         SizedBox(height: 10,),
                         Text(
-                          "Remark:",
+                          "Pan No.",
                           style: TextStyle(
                               color: kgreen,
                               fontSize: 14,
-                              fontWeight: FontWeight.bold
-                          ),
+                              fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 8,
+                        ),
                         TextFormField(
-                          style: TextStyle(fontSize: 13),
-                          controller: remarkController,
-                          maxLines: 5,
+                          controller: pannumberController,
                           onChanged: (value) {},
-
-                          /// keyboardType: TextInputType.number,
-
-                          // maxLength: 10,
-                          // controller: _mobile,
+                          style: TextStyle(fontSize: 13),
                           decoration: InputDecoration(
-                            //   errorText: _mobileValidated ? null : _mobileError,
-                            //  suffixIcon: Icon(Icons.call),
-                            hintText: 'Remark',
+                            contentPadding: EdgeInsets.all(5.0),
+                            hintText: 'Pan No.',
                             border: OutlineInputBorder(
                               borderSide: BorderSide(
                                 //  color: Util.colorPrimary,
@@ -303,12 +322,44 @@ class BulkOrder extends StatelessWidget {
                           ),
                           validator: (text) {
                             if (text!.isEmpty) {
-                              return "remark";
+                              return "Enter Pan Number";
                             }
                             return null;
                           },
                         ),
-                        SizedBox(height: 3,)
+                        SizedBox(height: 10,),
+                        Text(
+                          "GST No.",
+                          style: TextStyle(
+                              color: kgreen,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        TextFormField(
+                          controller: gstnumberController,
+                          onChanged: (value) {},
+                          style: TextStyle(fontSize: 13),
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(5.0),
+                            hintText: 'GST No.',
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          ),
+                          validator: (text) {
+                            if (text!.isEmpty) {
+                              return "Enter GST Number";
+                            }
+                            return null;
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -318,12 +369,57 @@ class BulkOrder extends StatelessWidget {
           ),
           InkWell(
             onTap: (){
-              if (anandcenter.currentState!.validate()) {
-                Navigator.pop(context);
+              if(dropdownvalue == "Select Report Type"){
+                Fluttertoast.showToast(
+                  msg: "Bulk Order Type",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: kblack,
+                  textColor: kWhite,
+                  fontSize: 13.0,
+                );
+              }else{
+                if (anandcenter.currentState!.validate()) {
+                  Navigator.pop(context);
 
-              } else {
 
+                } else {
+                  _controller = AnimationController(
+                    duration: const Duration(milliseconds: 3000),
+                    vsync: this,
+                  );
+                  _controller.addListener(() {
+                    if (_controller.isCompleted) {
+                      _controller.reset();
+                      _controller.forward();
+                    }
+
+                  });
+                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    Util.animatedProgressDialog(context, _controller);
+                    _controller.forward();
+                  });
+                  BulkOrderApi.bulkapi(
+                      "60640",
+                      'kunal',
+                      mobilenumberController.text,
+                      dropdownvalue,
+                      shopNameController.text,
+                      pincodeController.text,
+                      pannumberController.text,
+                      gstnumberController.text,
+                      addresssController.text).then((value) {
+                    _controller.reset();
+                    Navigator.pop(context);
+                    setState(() {});
+                    return value;
+                  });
+
+
+                }
               }
+
             },
 
 

@@ -682,13 +682,8 @@ onTap: (){
             onChanged: (value) {
               print(cropNameGlobal);
               print(cropId);
-
-
               setState(() {
                 _value3 = value as int;
-
-
-
               });
               print("Selected list demo is  $_value3");
             },

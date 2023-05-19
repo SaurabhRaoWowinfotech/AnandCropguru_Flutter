@@ -31,6 +31,9 @@ HexColor kgreyy = HexColor("#9E9E9E");
 HexColor kbordergrey = HexColor("#EEEEEE");
 HexColor GreenA100 = HexColor("#D1F4B6");
 HexColor lightgreen = HexColor("#D1F4B6");
+HexColor lgery = HexColor("#C2E7CF");
+HexColor sgreen = HexColor("#E8F2E8");
+HexColor mblue = HexColor("#053BC1");
 
 HexColor kwBorder = HexColor("#83ACCC");
 

@@ -1,3 +1,4 @@
+import 'package:dr_crop_guru/screens/community.dart';
 import 'package:dr_crop_guru/screens/home_screen.dart';
 import 'package:dr_crop_guru/screens/mart.dart';
 import 'package:dr_crop_guru/screens/profile.dart';
@@ -17,10 +18,8 @@ class _HomePageState extends State<HomePage> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
+    Communitty(),
+
     Mart(),
     Text(
       'Index 3: Lab',

@@ -1,13 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
-
 import '../../utils/Colors.dart';
 import '../../utils/util.dart';
 import 'package:http/http.dart' as http;
-import '../Purchase.dart';
 
 class PlotInformation extends StatefulWidget {
   PlotInformation({super.key});

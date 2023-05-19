@@ -34,13 +34,19 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       translations: Messages(),
       locale: Locale('en,US'),
+
       debugShowCheckedModeBanner: false,
+
+
       title: 'Flutter Demo',
       theme: ThemeData(
+        useMaterial3: true,
+
 
         primarySwatch: Util.colorCustomPrimary,
         appBarTheme: AppBarTheme(
           color: Util.newHomeColor,
+
           elevation: 0,
           systemOverlayStyle: SystemUiOverlayStyle(
             statusBarColor: Util.newHomeColor,

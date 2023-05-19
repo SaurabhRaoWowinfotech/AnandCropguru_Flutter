@@ -1,3 +1,5 @@
+// product list api error :- Dropdown 3 time click error product list
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dr_crop_guru/Api/expense_list_api.dart';
@@ -31,6 +33,8 @@ class _ExpensesState extends State<Expenses> with TickerProviderStateMixin {
   int? _value3;
   int? _value5;
   bool isVisible = true;
+  String cropNameGlobal = '';
+  String cropId = "";
   double size = 14;
   double Fromsize = 15;
 
@@ -100,7 +104,7 @@ class _ExpensesState extends State<Expenses> with TickerProviderStateMixin {
   }
 
   bool isLoaded = false;
-  String? categoryId;
+
   Future categoryname() async {
     isLoaded = true;
     http.Response response;
@@ -120,7 +124,7 @@ class _ExpensesState extends State<Expenses> with TickerProviderStateMixin {
     jsonResponse = json.decode(response.body);
     print(jsonResponse["ResponseMessage"]);
     if (response.statusCode == 200) {
-      print(response.body);
+   //   print(response.body);
       catmapresponse = json.decode(response.body);
       catlistresponse = catmapresponse["DATA"];
       isLoaded = true;
@@ -161,7 +165,7 @@ class _ExpensesState extends State<Expenses> with TickerProviderStateMixin {
     }
   }
 
-  Future productname() async {
+  Future productnameapi() async {
     Map<String, dynamic> data = {
       "START": "1",
       "END": "1000",
@@ -171,17 +175,19 @@ class _ExpensesState extends State<Expenses> with TickerProviderStateMixin {
       "EXTRA3": "",
       "LANG_ID": "1",
       "USER_ID": widget.userID.toString(),
-      "CAT_ID": _value2
+      "CAT_ID": cropId.toString()
     };
     http.Response response;
     response = await http.post(
         Uri.parse('http://mycropguruapiwow.cropguru.in/api/PurchaseProduct/1'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(data));
+
     jsonResponse = json.decode(response.body);
     print(jsonResponse["ResponseMessage"]);
     if (response.statusCode == 200) {
-      print(data);
+      print("Product list $data");
+
 
       productmapresponse = json.decode(response.body);
       productlistresponse = productmapresponse["DATA"];
@@ -313,7 +319,7 @@ class _ExpensesState extends State<Expenses> with TickerProviderStateMixin {
 
     setState(() {});
     categoryname().then((value) {
-      productname().then((value) {
+      productnameapi().then((value) {
         unitapi().then((value) {
           _controller.reset();
           Navigator.pop(context);
@@ -433,16 +439,11 @@ class _ExpensesState extends State<Expenses> with TickerProviderStateMixin {
                               SizedBox(
                                 height: 5,
                               ),
-                              InkWell(
-                                onTap: () {
-                                  productname();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: SizedBox(
-                                      height: 30, child: CityDrropDown()),
-                                ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10),
+                                child: SizedBox(
+                                    height: 30, child: catName()),
                               ),
                               SizedBox(
                                 height: 6,
@@ -461,14 +462,13 @@ class _ExpensesState extends State<Expenses> with TickerProviderStateMixin {
                               SizedBox(
                                 height: 5,
                               ),
-                              InkWell(
-                                onTapDown: (TapDownDetails details) {
-                                  productname();
-                                  _showPopupMenu(details.globalPosition);
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10),
+                                child: InkWell(
+                                  onTap: (){
+                                    productnameapi();
+                                  },
                                   child: SizedBox(
                                       height: 30, child: productName()),
                                 ),
@@ -1102,10 +1102,14 @@ class _ExpensesState extends State<Expenses> with TickerProviderStateMixin {
     );
   }
 
-  Widget CityDrropDown() {
+  Widget catName() {
     // final cityapi = Provider.of<CityApiProvider>(context);
+
+
     return DropdownButtonHideUnderline(
+
       child: ButtonTheme(
+
           alignedDropdown: true,
           child: DropdownButtonFormField(
             decoration: InputDecoration(
@@ -1113,26 +1117,51 @@ class _ExpensesState extends State<Expenses> with TickerProviderStateMixin {
               contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
             ),
             value: _value2,
+
             hint: Text(
-              "Select Category",
+              "Select Crop",
               style: TextStyle(fontSize: 12, color: kgreyy),
             ),
             isExpanded: true,
-            items: catlistresponse?.map((cityOne) {
+
+            items: catlistresponse?.map((product) {
+
+
               return DropdownMenuItem(
-                child: Text(cityOne["CAT_NAME"]),
-                value: cityOne["CAT_ID"],
+                onTap: (){
+
+              setState(() {
+                productnameapi();
+                Timer(Duration(seconds: 1), () {
+
+                  print("Yeah, this line is printed immediately");
+                  cropNameGlobal= product["CAT_NAME"].toString();
+                  cropId= product["CAT_ID"].toString() ?? '';
+                });
+              });
+
+                },
+                child: Text(product["CAT_NAME"]),
+                value: product,
               );
             }).toList(),
             onChanged: (value) {
+              print(cropNameGlobal);
+              print(cropId);
+              print(value);
+
+
               setState(() {
                 _value2 = value as int;
+
+
+
               });
-              print("Selected city is $_value2");
+              print("Selected list demo is  $_value3");
             },
             validator: (text) {
               if (!text.toString().isEmpty) {
-                return "Please enter question";
+                return "Please select Product";
               }
               return null;
             },
@@ -1202,6 +1231,9 @@ class _ExpensesState extends State<Expenses> with TickerProviderStateMixin {
             isExpanded: true,
             items: productlistresponse?.map((product) {
               return DropdownMenuItem(
+                onTap: (){
+                  productnameapi();
+                },
                 child: Text(product["PRODUCT_NAME"]),
                 value: product["PRODUCT_ID"],
               );

@@ -57,6 +57,9 @@ dependencies:
   url_launcher: ^6.1.11
   whatsapp_unilink: ^2.1.0
   flutter_phone_direct_caller: ^2.1.1
+  share_plus: ^7.0.0
+  webview_flutter: ^4.2.0
+  velocity_x: ^0.4.1
 
 dev_dependencies:
   flutter_test:
